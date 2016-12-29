@@ -8,17 +8,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
-import com.snowdays.snowdaysctrl.models.MainCardModel;
+import com.snowdays.snowdaysctrl.models.MainCard;
 
 /**
  * Created by danielmorandini on 19/12/2016.
  */
 
 public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapter.ViewHolder> {
-    private MainCardModel[] mDataset;
+    private MainCard[] mDataset;
     private OnClickListerner mDelegate;
 
-    public MainCardListAdapter(MainCardModel[] dataset) {
+    public MainCardListAdapter(MainCard[] dataset) {
         mDataset = dataset;
     }
 
@@ -31,7 +31,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
 
     @Override
     public void onBindViewHolder(MainCardListAdapter.ViewHolder holder, int position) {
-        MainCardModel element = mDataset[position];
+        MainCard element = mDataset[position];
         holder.mTextView.setText(element.getTitle());
     }
 
@@ -65,6 +65,6 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
     }
 
     public interface OnClickListerner {
-        void onButtonClick(MainCardModel cardModel);
+        void onButtonClick(MainCard cardModel);
     }
 }

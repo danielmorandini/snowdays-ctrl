@@ -4,10 +4,10 @@ package com.snowdays.snowdaysctrl.models;
  * Created by danielmorandini on 20/12/2016.
  */
 
-public class MainCardModel {
+public class MainCard {
     private String mTitle;
 
-    public MainCardModel(String title) {
+    public MainCard(String title) {
         mTitle = title;
     }
     public String getTitle() {

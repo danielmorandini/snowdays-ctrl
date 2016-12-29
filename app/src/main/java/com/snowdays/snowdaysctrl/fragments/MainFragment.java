@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.activities.NFCActivity;
 import com.snowdays.snowdaysctrl.adapters.MainCardListAdapter;
-import com.snowdays.snowdaysctrl.models.MainCardModel;
+import com.snowdays.snowdaysctrl.models.MainCard;
 
 /**
  * Created by danielmorandini on 19/12/2016.
@@ -25,7 +25,7 @@ public class MainFragment extends Fragment implements MainCardListAdapter.OnClic
     private RecyclerView mRecyclerView;
     private MainCardListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private MainCardModel[] mDatasource;
+    private MainCard[] mDatasource;
 
     @Nullable
     @Override
@@ -55,7 +55,7 @@ public class MainFragment extends Fragment implements MainCardListAdapter.OnClic
 
     //Update
     @Override
-    public void onButtonClick(MainCardModel cardModel) {
+    public void onButtonClick(MainCard cardModel) {
         Log.d("MainActivity", "onClick called: " + cardModel.getTitle());
 
         Intent intent = new Intent(getActivity(), NFCActivity.class);
@@ -64,7 +64,7 @@ public class MainFragment extends Fragment implements MainCardListAdapter.OnClic
     }
 
     //Helpers
-    public void setDatasource(MainCardModel[] mDatasource) {
+    public void setDatasource(MainCard[] mDatasource) {
         this.mDatasource = mDatasource;
     }
 }
