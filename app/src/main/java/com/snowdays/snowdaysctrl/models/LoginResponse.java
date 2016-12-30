@@ -7,19 +7,11 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class LoginResponse {
+    @SerializedName("authToken")
+    private String token;
+    @SerializedName("userId")
+    private String id;
 
-    private String status;
-    private Data data;
-
-    public Data getData() { return data; }
-
-    public class Data {
-        @SerializedName("authToken")
-        private String token;
-        @SerializedName("userId")
-        private String id;
-
-        public String getToken() { return token; }
-        public String getId() { return id; }
-    }
+    public String getToken() { return token; }
+    public String getId() { return id; }
 }

@@ -1,5 +1,6 @@
 package com.snowdays.snowdaysctrl.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.models.LoginResponse;
+import com.snowdays.snowdaysctrl.models.ResponseData;
+import com.snowdays.snowdaysctrl.utilities.KeyStore;
 import com.snowdays.snowdaysctrl.utilities.NetworkService;
 
 import retrofit2.Call;
@@ -24,7 +27,7 @@ import retrofit2.Response;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements Callback<LoginResponse> {
+public class LoginActivity extends AppCompatActivity implements Callback<ResponseData<LoginResponse>> {
 
     // UI references.
     private EditText mEmailView;
@@ -33,8 +36,8 @@ public class LoginActivity extends AppCompatActivity implements Callback<LoginRe
     private View mLoginFormView;
 
     // Global
-    private Call<LoginResponse> mCall;
-    private LoginResponse mUser;
+    private Call<ResponseData<LoginResponse>> mCall;
+    private ResponseData<LoginResponse> mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +84,14 @@ public class LoginActivity extends AppCompatActivity implements Callback<LoginRe
     }
 
     @Override
-    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+    public void onResponse(Call<ResponseData<LoginResponse>> call, Response<ResponseData<LoginResponse>> response) {
         if (response.isSuccessful() && response.body() != null) {
             mUser = response.body();
-            Log.d("LoginActivity", mUser.getData().getToken());
+            saveToken(mUser.getData().getToken());
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
         } else if (response.isSuccessful()) {
             finish();
         } else {
@@ -93,9 +100,13 @@ public class LoginActivity extends AppCompatActivity implements Callback<LoginRe
     }
 
     @Override
-    public void onFailure(Call<LoginResponse> call, Throwable t) {
+    public void onFailure(Call<ResponseData<LoginResponse>> call, Throwable t) {
         if (call.isCanceled()) return;
         t.printStackTrace();
+    }
+
+    private void saveToken(String token) {
+        KeyStore.saveToken(this, token);
     }
 }
 

@@ -9,6 +9,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.snowdays.snowdaysctrl.BuildConfig;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
@@ -19,6 +20,7 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -28,34 +30,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkService {
     private static Retrofit mRetrofit;
-    private static Context mContext;
-
-    public static void with(Context context) {
-        mContext = context;
-    }
 
     public static NetworkInterface getInstance() {
         if (mRetrofit == null) {
-            // cache
-            //int cacheSize = 10 * 1024 * 1024; // 10 MiB
-            //Cache cache = new Cache(mContext.getCacheDir(), cacheSize);
 
             // okhttp
-            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
-                    //.cache(cache)
-                    .connectTimeout(20, TimeUnit.SECONDS)
-                    .readTimeout(20, TimeUnit.SECONDS)
-                    .writeTimeout(20, TimeUnit.SECONDS);
+            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+                    //.connectTimeout(20, TimeUnit.SECONDS)
+                    //.readTimeout(20, TimeUnit.SECONDS)
+                    //.writeTimeout(20, TimeUnit.SECONDS);
 
             // logging
-            /*
             if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
                 logging.setLevel(HttpLoggingInterceptor.Level.BODY);
                 clientBuilder.addInterceptor(logging);
-            }*/
-
-            OkHttpClient client = clientBuilder.build();
+            }
 
             // gson
             Gson gson = new GsonBuilder()
@@ -65,7 +55,7 @@ public class NetworkService {
 
             mRetrofit = new Retrofit.Builder()
                     .baseUrl("https://www.snowdays.it:8080")
-                    .client(client)
+                    .client(clientBuilder.build())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

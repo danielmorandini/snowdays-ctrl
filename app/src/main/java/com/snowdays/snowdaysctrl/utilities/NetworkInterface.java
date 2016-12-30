@@ -1,6 +1,7 @@
 package com.snowdays.snowdaysctrl.utilities;
 
 import com.snowdays.snowdaysctrl.models.LoginResponse;
+import com.snowdays.snowdaysctrl.models.ResponseData;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -15,7 +16,7 @@ public interface NetworkInterface {
 
     @FormUrlEncoded
     @POST("/api/v1/login")
-    Call<LoginResponse> login(
+    Call<ResponseData<LoginResponse>> login(
         @Field("username") String username,
         @Field("password") String password
     );
