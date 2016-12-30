@@ -1,5 +1,7 @@
 package com.snowdays.snowdaysctrl.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by danielmorandini on 20/12/2016.
  */
@@ -8,12 +10,22 @@ package com.snowdays.snowdaysctrl.models;
 // We'll have to save here the class NFC-Activity class that will be handling the calls, such as
 // a bus checkin,
 public class MainCard {
+    @SerializedName("title")
     private String mTitle;
+    @SerializedName("actionKey")
+    private String mActionKey;
 
+    public MainCard(String title, String actionKey) {
+        mTitle = title;
+        mActionKey = actionKey;
+    }
+
+    // Placeholder just for now
     public MainCard(String title) {
         mTitle = title;
     }
     public String getTitle() {
         return mTitle;
     }
+    public String getActionKey() { return mActionKey; }
 }

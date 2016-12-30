@@ -1,0 +1,46 @@
+{
+  "thursday" :
+  [
+    {
+      "title" : "Bus departure",
+      "action_key" : "busD"
+    },
+    {
+      "title" : "Bus departure",
+      "action_key" : "busD"
+    }
+  ],
+  "friday" :
+  [
+    {
+      "title" : "Bus arrival",
+      "action_key" : "busA"
+    },
+    {
+      "title" : "Bus departure",
+      "action_key" : "busD"
+    }
+  ],
+  "saturday" :
+  [
+    {
+      "title" : "Bus arrival",
+      "action_key" : "busA"
+    },
+    {
+      "title" : "Bus departure",
+      "action_key" : "busD"
+    },
+    {
+      "title" : "Meal",
+      "action_key" : "meal"
+    }
+  ],
+  "utilities" :
+  [
+    {
+      "title" : "Util",
+      "action_key" : "util"
+    }
+  ]
+}

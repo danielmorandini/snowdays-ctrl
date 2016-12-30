@@ -26,14 +26,14 @@ public class KeyStore {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
                 .putString(context.getString(R.string.token_key), token)
-                .commit();
+                .apply();
     }
 
     public static void saveUserId(Context context, String userId) {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
                 .putString(context.getString(R.string.user_id_key), userId)
-                .commit();
+                .apply();
     }
 
     public static void clearAll(Context context) {
