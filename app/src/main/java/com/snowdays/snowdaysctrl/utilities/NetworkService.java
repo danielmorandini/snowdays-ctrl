@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -36,9 +35,6 @@ public class NetworkService {
 
             // okhttp
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-                    //.connectTimeout(20, TimeUnit.SECONDS)
-                    //.readTimeout(20, TimeUnit.SECONDS)
-                    //.writeTimeout(20, TimeUnit.SECONDS);
 
             // logging
             if (BuildConfig.DEBUG) {
