@@ -23,6 +23,6 @@
         android:id="@+id/tab_utilities"
         android:enabled="true"
         android:icon="@drawable/ic_utilities"
-        android:title="3rd"
+        android:title="Utils"
         app:showAsAction="ifRoom" />
 </menu>

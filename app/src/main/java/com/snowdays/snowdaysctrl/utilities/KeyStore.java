@@ -2,6 +2,7 @@ package com.snowdays.snowdaysctrl.utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.snowdays.snowdaysctrl.R;
 
@@ -12,20 +13,33 @@ import com.snowdays.snowdaysctrl.R;
 public class KeyStore {
 
     public static String getToken(Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE
-        );
+        return PreferenceManager.getDefaultSharedPreferences(context).
+                getString(context.getString(R.string.token_key), "notFound");
+    }
 
-        return context.getResources().getString(R.string.token_key);
+    public static String getUserId(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).
+                getString(context.getString(R.string.user_id_key), "notFound");
     }
 
     public static void saveToken(Context context, String token) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE
-        );
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(context.getString(R.string.token_key), token)
+                .commit();
+    }
 
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(context.getString(R.string.token_key), token);
-        editor.commit();
+    public static void saveUserId(Context context, String userId) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(context.getString(R.string.user_id_key), userId)
+                .commit();
+    }
+
+    public static void clearAll(Context context) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .clear()
+                .commit();
     }
 }

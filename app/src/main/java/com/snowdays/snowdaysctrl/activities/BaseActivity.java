@@ -18,7 +18,7 @@ public class BaseActivity extends AppCompatActivity {
         // otherwise open login view
         Intent intent;
 
-        if(KeyStore.getToken(this) != null) {
+        if(KeyStore.getToken(this) != "notFound" && KeyStore.getUserId(this) != "notFound") {
             intent = new Intent(this, MainActivity.class);
             finish();
             startActivity(intent);

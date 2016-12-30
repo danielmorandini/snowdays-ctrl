@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<Respons
 
     // Global
     private Call<ResponseData<LoginResponse>> mCall;
-    private ResponseData<LoginResponse> mUser;
+    private LoginResponse mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +86,8 @@ public class LoginActivity extends AppCompatActivity implements Callback<Respons
     @Override
     public void onResponse(Call<ResponseData<LoginResponse>> call, Response<ResponseData<LoginResponse>> response) {
         if (response.isSuccessful() && response.body() != null) {
-            mUser = response.body();
-            saveToken(mUser.getData().getToken());
+            mUser = response.body().getData();
+            saveTokenAndUserId(mUser.getToken(), mUser.getId());
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -105,8 +105,9 @@ public class LoginActivity extends AppCompatActivity implements Callback<Respons
         t.printStackTrace();
     }
 
-    private void saveToken(String token) {
+    private void saveTokenAndUserId(String token, String userId) {
         KeyStore.saveToken(this, token);
+        KeyStore.saveUserId(this, userId);
     }
 }
 
