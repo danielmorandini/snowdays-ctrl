@@ -2,6 +2,8 @@ package com.snowdays.snowdaysctrl.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by danielmorandini on 20/12/2016.
  */
@@ -9,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
 
 // We'll have to save here the class NFC-Activity class that will be handling the calls, such as
 // a bus checkin,
-public class MainCard {
+public class MainCard implements Serializable {
     @SerializedName("title")
     private String mTitle;
     @SerializedName("actionKey")

@@ -5,15 +5,22 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.snowdays.snowdaysctrl.R;
+import com.snowdays.snowdaysctrl.models.MainCard;
 
 import java.io.IOException;
 
 public class NFCActivity extends BaseNFCActivity {
 
+    public final static String EXTRA_CARD = "com.snowdays.snowdaysctrl.EXTRA_CARD";
+    private MainCard mCard;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc);
+
+        // Retrieve card info from intent
+        mCard = (MainCard) getIntent().getSerializableExtra(EXTRA_CARD);
     }
 
     private void setMessage(String message) {
@@ -37,4 +44,3 @@ public class NFCActivity extends BaseNFCActivity {
         Log.d("NFCActivity", "Reading started");
     }
 }
-
