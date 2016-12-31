@@ -61,7 +61,6 @@ public class MainFragment extends Fragment implements MainCardListAdapter.OnClic
         Intent intent = new Intent(getActivity(), NFCActivity.class);
         intent.putExtra(NFCActivity.EXTRA_CARD, cardModel);
         startActivity(intent);
-
     }
 
     //Helpers

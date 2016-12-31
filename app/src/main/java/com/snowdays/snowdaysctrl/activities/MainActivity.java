@@ -27,11 +27,6 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    //private MainCard[] firstDay = new MainCard[]{new MainCard("Check IN")};
-    //private MainCard[] secondDay = new MainCard[]{new MainCard("Bus departure"), new MainCard("Meal"), new MainCard("Bus departure"), new MainCard("Meal"), new MainCard("Bus departure"), new MainCard("Meal"), new MainCard("Bus departure"), new MainCard("Meal"), new MainCard("Bus departure"), new MainCard("Meal")};
-    //private MainCard[] thirdDay = new MainCard[]{new MainCard("Breakfast")};
-    //private MainCard[] utilities = new MainCard[]{new MainCard("Util1"), new MainCard("Util2"), new MainCard("Util3")};
-
     private Activities activities;
 
     @Override

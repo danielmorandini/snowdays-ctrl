@@ -2,45 +2,45 @@
   "thursday" :
   [
     {
-      "title" : "Bus departure",
-      "action_key" : "busD"
+      "title" : "Volley tournament",
+      "actionKey": "isVolleyPlayer"
     },
     {
       "title" : "Bus departure",
-      "action_key" : "busD"
+      "actionKey": "busD"
     }
   ],
   "friday" :
   [
     {
       "title" : "Bus arrival",
-      "action_key" : "busA"
+      "actionKey": "busA"
     },
     {
       "title" : "Bus departure",
-      "action_key" : "busD"
+      "actionKey": "busD"
     }
   ],
   "saturday" :
   [
     {
       "title" : "Bus arrival",
-      "action_key" : "busA"
+      "actionKey": "busA"
     },
     {
       "title" : "Bus departure",
-      "action_key" : "busD"
+      "actionKey": "busD"
     },
     {
       "title" : "Meal",
-      "action_key" : "meal"
+      "actionKey": "meal"
     }
   ],
   "utilities" :
   [
     {
       "title" : "Util",
-      "action_key" : "util"
+      "actionKey": "util"
     }
   ]
 }

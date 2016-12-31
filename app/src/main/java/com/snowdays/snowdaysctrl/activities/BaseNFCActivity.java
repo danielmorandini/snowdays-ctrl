@@ -3,7 +3,6 @@ package com.snowdays.snowdaysctrl.activities;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import java.io.IOException;
 
@@ -11,9 +10,7 @@ import nordpol.Apdu;
 import nordpol.IsoCard;
 import nordpol.android.AndroidCard;
 import nordpol.android.OnDiscoveredTagListener;
-import nordpol.android.TagArbiter;
 import nordpol.android.TagDispatcher;
-import nordpol.android.TagDispatcherBuilder;
 
 /**
  * Created by danielmorandini on 20/12/2016.
