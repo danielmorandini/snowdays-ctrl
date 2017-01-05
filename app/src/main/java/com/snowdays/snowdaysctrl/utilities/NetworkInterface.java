@@ -33,10 +33,10 @@ public interface NetworkInterface {
             @Field("password") String password
     );
 
-    @PUT("/api/v1/participant/{id}")
+    @PUT("/api/v1/participants/{id}")
     Call<ResponseData<UpdateResponse>> updateParticipant(
             @HeaderMap Map<String, String> headers,
             @Path("id") String participantId,
-            @Body HashMap<String, Boolean> body
+            @Body HashMap<String, HashMap<String, Boolean>> body
     );
 }

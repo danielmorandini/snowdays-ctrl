@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
@@ -30,6 +31,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<Respons
     // UI references.
     private EditText mEmailView;
     private EditText mPasswordView;
+    private ProgressBar mProgressBar;
 
     // Global
     private Call<ResponseData<LoginResponse>> mCall;
@@ -54,6 +56,8 @@ public class LoginActivity extends AppCompatActivity implements Callback<Respons
             }
         });
 
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -70,6 +74,10 @@ public class LoginActivity extends AppCompatActivity implements Callback<Respons
      */
     private void attemptLogin() {
         if (mCall != null) mCall.cancel();
+
+        // Start Progress view
+        showProgress();
+
         // TODO: remove dummy data
         //mCall = NetworkService.getInstance().login(mEmailView.getText().toString(), mPasswordView.getText().toString());
         mCall = NetworkService.getInstance().login("daniel.morandini", "ciao");
@@ -78,6 +86,8 @@ public class LoginActivity extends AppCompatActivity implements Callback<Respons
 
     @Override
     public void onResponse(Call<ResponseData<LoginResponse>> call, Response<ResponseData<LoginResponse>> response) {
+        hideProgress();
+
         if (response.isSuccessful() && response.body() != null) {
             mUser = response.body().getData();
             saveTokenAndUserId(mUser.getToken(), mUser.getId());
@@ -94,6 +104,8 @@ public class LoginActivity extends AppCompatActivity implements Callback<Respons
 
     @Override
     public void onFailure(Call<ResponseData<LoginResponse>> call, Throwable t) {
+        hideProgress();
+
         if (call.isCanceled()) return;
         t.printStackTrace();
     }
@@ -101,6 +113,14 @@ public class LoginActivity extends AppCompatActivity implements Callback<Respons
     private void saveTokenAndUserId(String token, String userId) {
         KeyStore.saveToken(this, token);
         KeyStore.saveUserId(this, userId);
+    }
+
+    private void showProgress() {
+        mProgressBar.setVisibility(ProgressBar.INVISIBLE);
+    }
+
+    private void hideProgress() {
+        mProgressBar.setVisibility(ProgressBar.VISIBLE);
     }
 }
 

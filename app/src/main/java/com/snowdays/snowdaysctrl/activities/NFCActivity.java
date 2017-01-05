@@ -64,10 +64,13 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
         if (mCall != null) mCall.cancel();
 
         //TODO: Remove this afterwards
-        participantId = "WjjuytkdwZrK3RZoE";
+        participantId = "ea7iMYMnz2uCbnyDp";
 
-        HashMap<String, Boolean> body = new HashMap<>();
-        body.put(mCard.getActionKey(), true);
+        HashMap<String, HashMap<String, Boolean>> body = new HashMap<>();
+        HashMap<String, Boolean> innerBody = new HashMap<>();
+        innerBody.put(mCard.getActionKey(), true);
+        body.put(mCard.getmDayKey(), innerBody);
+
         mCall = NetworkService.getInstance().updateParticipant(getHeaders(), participantId, body);
         mCall.enqueue(this);
     }

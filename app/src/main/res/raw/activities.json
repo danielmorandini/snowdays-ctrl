@@ -3,44 +3,52 @@
   [
     {
       "title" : "Volley tournament",
-      "actionKey": "isVolleyPlayer"
+      "actionKey": "isVolleyPlayer",
+      "dayKey": "day1"
     },
     {
       "title" : "Bus departure",
-      "actionKey": "busD"
+      "actionKey": "busD",
+      "dayKey": "day1"
     }
   ],
   "friday" :
   [
     {
       "title" : "Bus arrival",
-      "actionKey": "busA"
+      "actionKey": "busA",
+      "dayKey": "day2"
     },
     {
       "title" : "Bus departure",
-      "actionKey": "busD"
+      "actionKey": "busD",
+      "dayKey": "day2"
     }
   ],
   "saturday" :
   [
     {
-      "title" : "Bus arrival",
-      "actionKey": "busA"
+      "title" : "BUS1",
+      "actionKey": "bus1",
+      "dayKey": "day3"
     },
     {
       "title" : "Bus departure",
-      "actionKey": "busD"
+      "actionKey": "busD",
+      "dayKey": "day3"
     },
     {
       "title" : "Meal",
-      "actionKey": "meal"
+      "actionKey": "meal",
+      "dayKey": "day3"
     }
   ],
   "utilities" :
   [
     {
       "title" : "Util",
-      "actionKey": "util"
+      "actionKey": "util",
+      "dayKey": "day0"
     }
   ]
 }
