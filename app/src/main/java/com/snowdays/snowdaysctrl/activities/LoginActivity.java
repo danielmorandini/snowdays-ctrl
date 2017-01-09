@@ -74,7 +74,6 @@ public class LoginActivity extends AppCompatActivity implements Callback<Respons
      */
     private void attemptLogin() {
         if (mCall != null) mCall.cancel();
-
         // Start Progress view
         showProgress();
 
