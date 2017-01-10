@@ -1,6 +1,5 @@
 package com.snowdays.snowdaysctrl.activities;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -11,7 +10,6 @@ import com.snowdays.snowdaysctrl.fragments.NFCProgressFragment;
 import com.snowdays.snowdaysctrl.models.APIErrorResponse;
 import com.snowdays.snowdaysctrl.models.MainCard;
 import com.snowdays.snowdaysctrl.models.ResponseData;
-import com.snowdays.snowdaysctrl.models.UpdateResponse;
 import com.snowdays.snowdaysctrl.utilities.ErrorUtils;
 import com.snowdays.snowdaysctrl.utilities.KeyStore;
 import com.snowdays.snowdaysctrl.utilities.NetworkService;
@@ -24,10 +22,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseData<UpdateResponse>> {
+public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseData<String>> {
 
     // Global
-    private Call<ResponseData<UpdateResponse>> mCall;
+    private Call<ResponseData<String>> mCall;
     public final static String EXTRA_CARD = "com.snowdays.snowdaysctrl.EXTRA_CARD";
     private MainCard mCard;
     private FragmentStack mStack;
@@ -104,7 +102,7 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
     }
 
     @Override
-    public void onResponse(Call<ResponseData<UpdateResponse>> call, Response<ResponseData<UpdateResponse>> response) {
+    public void onResponse(Call<ResponseData<String>> call, Response<ResponseData<String>> response) {
         //TODO: Visually handle the response. If successfull, the staff member must know that he can pass to another participant
 
         if (response.isSuccessful()) {
@@ -112,16 +110,18 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
             item.taskDone();
             setMessage("PARTICIPANT UPDATED WITH KEY " + mCard.getActionKey());
         } else {
-
             APIErrorResponse error = ErrorUtils.parseError(response);
-            setMessage(error.message());
+            if (error.message() != null && error.message().length() > 0) {
+                setMessage(error.message());
+            }
+
             NFCProgressFragment item = mStack.peek();
-            item.taskFailed(); 
+            item.taskFailed();
         }
     }
 
     @Override
-    public void onFailure(Call<ResponseData<UpdateResponse>> call, Throwable t) {
+    public void onFailure(Call<ResponseData<String>> call, Throwable t) {
         //TODO: visually handle this failure and help the staff member to understand if there is a possibility to make this work in the near future
         setMessage("Error while contacting the server");
 

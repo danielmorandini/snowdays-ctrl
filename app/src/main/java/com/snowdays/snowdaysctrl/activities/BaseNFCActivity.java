@@ -109,7 +109,7 @@ public abstract class BaseNFCActivity extends AppCompatActivity {
             //get the actual message
             String value = new String(message.getRecords()[0].getPayload(), Charset.forName("US-ASCII"));
             if (value != null && value.length() > 2) {
-                return value.substring(2); // remove language info
+                return value.substring(3); // remove language info
             }
 
         } catch (IOException e) {
