@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.NFCActivity" />
+        <activity android:name=".activities.NFCActivity" android:screenOrientation="portrait" />
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.LoginActivity" />
     </application>
