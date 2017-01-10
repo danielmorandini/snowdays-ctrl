@@ -2,6 +2,7 @@ package com.snowdays.snowdaysctrl.utilities;
 
 import android.util.TypedValue;
 
+import com.snowdays.snowdaysctrl.models.APIErrorResponse;
 import com.snowdays.snowdaysctrl.models.LoginResponse;
 import com.snowdays.snowdaysctrl.models.ResponseData;
 import com.snowdays.snowdaysctrl.models.UpdateResponse;

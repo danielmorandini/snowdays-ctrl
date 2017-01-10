@@ -14,15 +14,6 @@ import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NFCProgressFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link NFCProgressFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class NFCProgressFragment extends Fragment {
     private static final String ARG_TITLE = "title";
 
@@ -31,9 +22,9 @@ public class NFCProgressFragment extends Fragment {
     private TextView mTitleView;
     private ImageView mImageView;
 
+    // variables used to protect the view in case that the task ended before the view wa actually created
     private Boolean isDone = false;
-
-    private OnFragmentInteractionListener mListener;
+    private Boolean failed = false;
 
     public NFCProgressFragment() {
         // Required empty public constructor
@@ -75,54 +66,23 @@ public class NFCProgressFragment extends Fragment {
         mTitleView.setText(mTitle);
 
         if (isDone) taskDone();
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+        if (failed) taskFailed();
     }
 
     // Update
     public void taskDone() {
         isDone = true;
-
         if (mProgressBar == null || mImageView == null) return;
 
         mProgressBar.setVisibility(ProgressBar.INVISIBLE);
         mImageView.setImageResource(R.drawable.ic_check_box_checked);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public void taskFailed() {
+        failed = true;
+        if (mProgressBar == null || mImageView == null) return;
+
+        mProgressBar.setVisibility(ProgressBar.INVISIBLE);
+        mImageView.setImageResource(R.drawable.ic_check_box_failed);
     }
 }

@@ -28,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class NetworkService {
-    private static Retrofit mRetrofit;
+    public static Retrofit mRetrofit;
 
     public static NetworkInterface getInstance() {
         if (mRetrofit == null) {

@@ -13,27 +13,29 @@
         android:src="@drawable/ic_check_box"
         android:layout_marginRight="8dp"/>
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
         <TextView
             android:id="@+id/progress_text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginRight="6dp"
             android:text="Scannig with NFC"/>
 
         <ProgressBar
             android:id="@+id/progress_bar"
             android:theme="@style/CircularProgress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            style="@android:style/Widget.ProgressBar.Small"
             android:layout_gravity="center"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
             android:visibility="visible"/>
 
-    </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

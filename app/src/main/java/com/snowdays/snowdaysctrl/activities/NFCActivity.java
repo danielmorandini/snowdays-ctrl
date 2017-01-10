@@ -2,19 +2,20 @@ package com.snowdays.snowdaysctrl.activities;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.fragments.NFCProgressFragment;
+import com.snowdays.snowdaysctrl.models.APIErrorResponse;
 import com.snowdays.snowdaysctrl.models.MainCard;
 import com.snowdays.snowdaysctrl.models.ResponseData;
 import com.snowdays.snowdaysctrl.models.UpdateResponse;
+import com.snowdays.snowdaysctrl.utilities.ErrorUtils;
 import com.snowdays.snowdaysctrl.utilities.KeyStore;
 import com.snowdays.snowdaysctrl.utilities.NetworkService;
 
-import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -23,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseData<UpdateResponse>>, NFCProgressFragment.OnFragmentInteractionListener {
+public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseData<UpdateResponse>> {
 
     // Global
     private Call<ResponseData<UpdateResponse>> mCall;
@@ -31,11 +32,9 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
     private MainCard mCard;
     private FragmentStack mStack;
 
-
     // UI
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc);
 
@@ -44,7 +43,6 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
 
         // Stack that will host the fragments that handle the visual responses of this view
         mStack = new FragmentStack();
-
     }
 
     //TODO: Remove this afterwards
@@ -54,10 +52,8 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
     }
 
     //NFC Tag discovery
-
     @Override
     public void readingStarted() {
-
         //remove every item first
         mStack.popAll();
 
@@ -67,20 +63,28 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
 
     @Override
     public void responseData(String data) {
-
         NFCProgressFragment item = mStack.peek();
         item.taskDone();
 
-        // TODO: Read the userId stored into the NFC tag and then make the HTTP request
         updateParticipant(data);
     }
 
     @Override
-    public void responseError(IOException e) {
+    public void responseError(Exception e) {
         setMessage("Error while reading the card");
         Log.e("NFCActivity", "Error reading the card", e);
+
+        NFCProgressFragment item = mStack.peek();
+        item.taskFailed();
     }
 
+    @Override
+    public void responseError() {
+        setMessage("Error while reading the card");
+
+        NFCProgressFragment item = mStack.peek();
+        item.taskFailed();
+    }
 
     //HTTP Requests
 
@@ -89,9 +93,6 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
 
         NFCProgressFragment item = createFragment("HTTP request");
         mStack.push(item);
-
-        //TODO: Remove this afterwards
-        participantId = "ea7iMYMnz2uCbnyDp";
 
         HashMap<String, HashMap<String, Boolean>> body = new HashMap<>();
         HashMap<String, Boolean> innerBody = new HashMap<>();
@@ -106,15 +107,26 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
     public void onResponse(Call<ResponseData<UpdateResponse>> call, Response<ResponseData<UpdateResponse>> response) {
         //TODO: Visually handle the response. If successfull, the staff member must know that he can pass to another participant
 
-        NFCProgressFragment item = mStack.peek();
-        item.taskDone();
+        if (response.isSuccessful()) {
+            NFCProgressFragment item = mStack.peek();
+            item.taskDone();
+            setMessage("PARTICIPANT UPDATED WITH KEY " + mCard.getActionKey());
+        } else {
 
-        setMessage("PARTICIPANT UPDATED WITH KEY " + mCard.getActionKey());
+            APIErrorResponse error = ErrorUtils.parseError(response);
+            setMessage(error.message());
+            NFCProgressFragment item = mStack.peek();
+            item.taskFailed(); 
+        }
     }
 
     @Override
     public void onFailure(Call<ResponseData<UpdateResponse>> call, Throwable t) {
         //TODO: visually handle this failure and help the staff member to understand if there is a possibility to make this work in the near future
+        setMessage("Error while contacting the server");
+
+        NFCProgressFragment item = mStack.peek();
+        item.taskFailed();
     }
 
     // Utils
@@ -130,11 +142,6 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
     public NFCProgressFragment createFragment(String title) {
         NFCProgressFragment item = NFCProgressFragment.newInstance(title);
         return item;
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        Log.d("NFCActivity", "Fragment Interaction Called");
     }
 
     public class FragmentStack extends Stack<NFCProgressFragment> {
