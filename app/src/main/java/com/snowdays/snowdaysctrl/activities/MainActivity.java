@@ -13,17 +13,12 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.snowdays.snowdaysctrl.fragments.MainFragment;
 import com.snowdays.snowdaysctrl.models.Activities;
-import com.snowdays.snowdaysctrl.models.MainCard;
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.utilities.KeyStore;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 KeyStore.clearAll(this);
 
                 // Return to the base activity
-                Intent intent = new Intent(this, BaseActivity.class);
+                Intent intent = new Intent(this, StartActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 return true;

@@ -1,8 +1,12 @@
 package com.snowdays.snowdaysctrl.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.snowdays.snowdaysctrl.R;
@@ -11,11 +15,9 @@ import com.snowdays.snowdaysctrl.models.APIErrorResponse;
 import com.snowdays.snowdaysctrl.models.MainCard;
 import com.snowdays.snowdaysctrl.models.ResponseData;
 import com.snowdays.snowdaysctrl.utilities.ErrorUtils;
-import com.snowdays.snowdaysctrl.utilities.KeyStore;
 import com.snowdays.snowdaysctrl.utilities.NetworkService;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Stack;
 
 import retrofit2.Call;
@@ -43,10 +45,26 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
         mStack = new FragmentStack();
     }
 
-    //TODO: Remove this afterwards
-    private void setMessage(String message) {
-        Log.d("NFCActivity", message);
-        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_bar_nfc, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+
+                Intent intent = new Intent(this, ParticipantListActivity.class);
+                intent.putExtra(ParticipantListActivity.ARG_ACTION_KEY, mCard.getActionKey());
+                intent.putExtra(ParticipantListActivity.ARG_DAY_KEY, mCard.getmDayKey());
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     //NFC Tag discovery
@@ -127,16 +145,6 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
 
         NFCProgressFragment item = mStack.peek();
         item.taskFailed();
-    }
-
-    // Utils
-
-    public Map<String, String> getHeaders() {
-        Map<String, String> map = new HashMap<>();
-
-        map.put("X-Auth-Token", KeyStore.getToken(this));
-        map.put("X-User-Id", KeyStore.getUserId(this));
-        return map;
     }
 
     public NFCProgressFragment createFragment(String title) {

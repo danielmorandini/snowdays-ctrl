@@ -16,6 +16,7 @@ import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by danielmorandini on 29/12/2016.
@@ -40,5 +41,13 @@ public interface NetworkInterface {
     @GET("/api/v1/participants?fields=all")
     Call<Participant[]> getAllParticipants(
             @HeaderMap Map<String, String> headers
+    );
+
+    @GET("/api/v1/participants")
+    Call<ResponseData<Participant[]>> getParticipantsWithFields(
+            @HeaderMap Map<String, String> headers,
+            @Query("fields") String fields,
+            @Query("key") String key,
+            @Query("value") Boolean value
     );
 }

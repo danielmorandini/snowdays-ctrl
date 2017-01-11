@@ -7,30 +7,21 @@ import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
-import android.nfc.tech.MifareUltralight;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-import nordpol.Apdu;
-import nordpol.IsoCard;
-import nordpol.android.AndroidCard;
-import nordpol.android.OnDiscoveredTagListener;
-import nordpol.android.TagDispatcher;
-
 /**
  * Created by danielmorandini on 20/12/2016.
  */
 
-public abstract class BaseNFCActivity extends AppCompatActivity {
+public abstract class BaseNFCActivity extends BaseActivity {
 
     private PendingIntent pendingIntent;
     private IntentFilter[] intentFiltersArray;
