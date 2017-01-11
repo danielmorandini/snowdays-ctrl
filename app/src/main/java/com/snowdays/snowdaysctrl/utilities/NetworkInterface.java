@@ -1,6 +1,7 @@
 package com.snowdays.snowdaysctrl.utilities;
 
 import com.snowdays.snowdaysctrl.models.LoginResponse;
+import com.snowdays.snowdaysctrl.models.Participant;
 import com.snowdays.snowdaysctrl.models.ResponseData;
 
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -33,5 +35,10 @@ public interface NetworkInterface {
             @HeaderMap Map<String, String> headers,
             @Path("id") String participantId,
             @Body HashMap<String, HashMap<String, Boolean>> body
+    );
+
+    @GET("/api/v1/participants?fields=all")
+    Call<Participant[]> getAllParticipants(
+            @HeaderMap Map<String, String> headers
     );
 }
