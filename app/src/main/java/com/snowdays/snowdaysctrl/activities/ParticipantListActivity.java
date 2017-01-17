@@ -1,8 +1,12 @@
 package com.snowdays.snowdaysctrl.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 
 import com.snowdays.snowdaysctrl.R;
@@ -11,6 +15,7 @@ import com.snowdays.snowdaysctrl.models.APIErrorResponse;
 import com.snowdays.snowdaysctrl.models.Participant;
 import com.snowdays.snowdaysctrl.models.ResponseData;
 import com.snowdays.snowdaysctrl.utilities.ErrorUtils;
+import com.snowdays.snowdaysctrl.utilities.KeyStore;
 import com.snowdays.snowdaysctrl.utilities.NetworkService;
 
 import java.util.ArrayList;
@@ -32,6 +37,7 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
     private ProgressBar mSpinner;
     private String actionKey;
     private String dayKey;
+    private Boolean switch_value = false; // Value that decides if to fetch users that have already done this activity of not
 
 
     @Override
@@ -63,8 +69,31 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
 
     private void loadData() {
         mSpinner.setVisibility(ProgressBar.VISIBLE);
-        mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), dayKey + "." + actionKey, false);
+        mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), dayKey + "." + actionKey, switch_value);
         mCall.enqueue(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_bar_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_switch_list:
+                if (switch_value) {
+                    switch_value = false;
+                } else {
+                    switch_value = true;
+                }
+                loadData();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // Update
@@ -75,7 +104,7 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
 
         if (response.isSuccessful()) {
             ArrayList<Participant> data = new ArrayList<Participant>(Arrays.asList(response.body().getData()));
-            mAdapter.addItems(data);
+            mAdapter.addItems(data, switch_value);
 
         } else {
             APIErrorResponse error = ErrorUtils.parseError(response);

@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsListAdapter.ViewHolder> {
 
     private ArrayList<Participant> mDataset;
+    private Boolean flag; // Determines if we should put the done icon or the todo icon
 
     public ParticipantsListAdapter(ArrayList<Participant> participants) {
         mDataset = participants;
@@ -33,6 +35,10 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Participant element = mDataset.get(position);
+
+        int drawableIconID = (flag) ? R.drawable.ic_done : R.drawable.ic_todo;
+        holder.mIconView.setImageResource(drawableIconID);
+
         holder.mTextView.setText(element.getId());
     }
 
@@ -41,7 +47,9 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
         return mDataset.size();
     }
 
-    public void addItems(ArrayList<Participant> participants) {
+    public void addItems(ArrayList<Participant> participants, boolean flag) {
+        this.flag = flag;
+        mDataset.clear();
         mDataset.addAll(participants);
         notifyDataSetChanged();
     }
@@ -52,9 +60,12 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView mTextView;
+        public ImageView mIconView;
+
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.participant_list_text);
+            mIconView = (ImageView) v.findViewById(R.id.participant_list_icon);
         }
 
     }
