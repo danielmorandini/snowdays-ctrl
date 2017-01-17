@@ -50,7 +50,7 @@ public class NetworkService {
                     .create();
 
             mRetrofit = new Retrofit.Builder()
-                    .baseUrl("https://www.snowdays.it:8080")
+                    .baseUrl("https://www.snowdays.it")
                     .client(clientBuilder.build())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

@@ -47,7 +47,6 @@ public interface NetworkInterface {
     Call<ResponseData<Participant[]>> getParticipantsWithFields(
             @HeaderMap Map<String, String> headers,
             @Query("fields") String fields,
-            @Query("key") String key,
             @Query("value") Boolean value
     );
 }

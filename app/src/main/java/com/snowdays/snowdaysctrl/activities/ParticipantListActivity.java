@@ -3,7 +3,6 @@ package com.snowdays.snowdaysctrl.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.snowdays.snowdaysctrl.R;
@@ -55,7 +54,7 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
+        // specify an adapter
         mAdapter = new ParticipantsListAdapter(new ArrayList<Participant>());
         mRecyclerView.setAdapter(mAdapter);
 
@@ -64,7 +63,7 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
 
     private void loadData() {
         mSpinner.setVisibility(ProgressBar.VISIBLE);
-        mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), "all", dayKey + "." + actionKey, false);
+        mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), dayKey + "." + actionKey, false);
         mCall.enqueue(this);
     }
 
@@ -85,7 +84,6 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
             } else {
                 setMessage("Error while reading server's response");
             }
-
         }
     }
 

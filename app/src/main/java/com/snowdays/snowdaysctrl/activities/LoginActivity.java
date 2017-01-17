@@ -14,8 +14,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
+import com.snowdays.snowdaysctrl.models.APIErrorResponse;
 import com.snowdays.snowdaysctrl.models.LoginResponse;
 import com.snowdays.snowdaysctrl.models.ResponseData;
+import com.snowdays.snowdaysctrl.utilities.ErrorUtils;
 import com.snowdays.snowdaysctrl.utilities.KeyStore;
 import com.snowdays.snowdaysctrl.utilities.NetworkService;
 
@@ -26,7 +28,7 @@ import retrofit2.Response;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements Callback<ResponseData<LoginResponse>> {
+public class LoginActivity extends BaseActivity implements Callback<ResponseData<LoginResponse>> {
 
     // UI references.
     private EditText mEmailView;
@@ -79,7 +81,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<Respons
 
         // TODO: remove dummy data
         //mCall = NetworkService.getInstance().login(mEmailView.getText().toString(), mPasswordView.getText().toString());
-        mCall = NetworkService.getInstance().login("daniel.morandini", "ciao");
+        mCall = NetworkService.getInstance().login("danielmorandini", "ciao");
         mCall.enqueue(this);
     }
 
@@ -97,7 +99,12 @@ public class LoginActivity extends AppCompatActivity implements Callback<Respons
         } else if (response.isSuccessful()) {
             finish();
         } else {
-            // We encountered some errors. print (has to be deserialized, check - response.errorBody -)
+            APIErrorResponse error = ErrorUtils.parseError(response);
+            if (error.message() != null && error.message().length() > 0) {
+                setMessage(error.message());
+            } else {
+                setMessage("Error while reading server's response");
+            }
         }
     }
 
