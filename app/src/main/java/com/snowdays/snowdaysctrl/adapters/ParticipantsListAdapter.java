@@ -33,7 +33,7 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Participant element = mDataset.get(position);
-        holder.mTextView.setText(element.getEmail());
+        holder.mTextView.setText(element.getId());
     }
 
     @Override
