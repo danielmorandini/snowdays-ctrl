@@ -2,7 +2,7 @@
   "thursday" :
   [
     {
-      "title" : "bus 1",
+      "title" : "Bus 1",
       "actionKey": "bus1",
       "dayKey": "day1"
     },
