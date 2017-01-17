@@ -2,44 +2,59 @@
   "thursday" :
   [
     {
-      "title" : "Volley tournament",
-      "actionKey": "isVolleyPlayer",
+      "title" : "bus 1",
+      "actionKey": "bus1",
       "dayKey": "day1"
     },
     {
-      "title" : "Bus departure",
-      "actionKey": "busD",
+      "title" : "Bus 2",
+      "actionKey": "bus2",
       "dayKey": "day1"
     }
   ],
   "friday" :
   [
     {
-      "title" : "Bus arrival",
-      "actionKey": "busA",
+      "title" : "Bus 1",
+      "actionKey": "bus1",
       "dayKey": "day2"
     },
     {
-      "title" : "Bus departure",
-      "actionKey": "busD",
+      "title" : "Bus 2",
+      "actionKey": "bus2",
+      "dayKey": "day2"
+    },
+    {
+      "title" : "Course",
+      "actionKey": "course",
+      "dayKey": "day2"
+    },
+    {
+      "title" : "Meal",
+      "actionKey": "meal",
       "dayKey": "day2"
     }
   ],
   "saturday" :
   [
     {
-      "title" : "BUS1",
+      "title" : "Bus 1",
       "actionKey": "bus1",
       "dayKey": "day3"
     },
     {
-      "title" : "Bus departure",
-      "actionKey": "busD",
+      "title" : "Bus 2",
+      "actionKey": "bus2",
       "dayKey": "day3"
     },
     {
-      "title" : "Meal",
-      "actionKey": "meal",
+      "title" : "Meal 1",
+      "actionKey": "meal1",
+      "dayKey": "day3"
+    },
+    {
+      "title" : "Meal 2",
+      "actionKey": "meal2",
       "dayKey": "day3"
     }
   ],
@@ -51,4 +66,21 @@
       "dayKey": "day0"
     }
   ]
+}
+
+"day1": {
+"bus1": false,
+"bus2": false
+},
+"day2": {
+"bus1": false,
+"bus2": false,
+"course": false,
+"meal1": false
+},
+"day3": {
+"bus1": false,
+"bus2": false,
+"meal1": false,
+"meal2": false
 }
