@@ -39,7 +39,8 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
         int drawableIconID = (flag) ? R.drawable.ic_done : R.drawable.ic_todo;
         holder.mIconView.setImageResource(drawableIconID);
 
-        holder.mTextView.setText(element.getId());
+        holder.mTextView.setText(element.getFirstName() + " " + element.getLastName());
+        holder.mTextViewDorm.setText(element.getId());
     }
 
     @Override
@@ -60,12 +61,14 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView mTextView;
+        public TextView mTextViewDorm;
         public ImageView mIconView;
 
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.participant_list_text);
             mIconView = (ImageView) v.findViewById(R.id.participant_list_icon);
+            mTextViewDorm = (TextView) v.findViewById(R.id.participant_list_dorm);
         }
 
     }
