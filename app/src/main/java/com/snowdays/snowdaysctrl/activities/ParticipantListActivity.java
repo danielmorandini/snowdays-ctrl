@@ -84,13 +84,15 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_switch_list:
-                if (switch_value) {
+                /*if (switch_value) {
                     switch_value = false;
                 } else {
                     switch_value = true;
-                }
+                }*/
                 loadData();
                 return true;
+            case R.id.action_search:
+                
             default:
                 return super.onOptionsItemSelected(item);
         }
