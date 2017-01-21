@@ -60,8 +60,9 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+
         // specify an adapter
-        mAdapter = new ParticipantsListAdapter(new ArrayList<Participant>());
+        mAdapter = new ParticipantsListAdapter(this, new ArrayList<Participant>());
         mRecyclerView.setAdapter(mAdapter);
 
         loadData();
@@ -84,15 +85,15 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_switch_list:
-                /*if (switch_value) {
+                if (switch_value) {
                     switch_value = false;
                 } else {
                     switch_value = true;
-                }*/
+                }
                 loadData();
                 return true;
-            case R.id.action_search:
-                
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }

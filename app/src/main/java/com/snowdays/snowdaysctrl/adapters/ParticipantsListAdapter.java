@@ -1,5 +1,7 @@
 package com.snowdays.snowdaysctrl.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
+import com.snowdays.snowdaysctrl.activities.ParticipantDetail;
+import com.snowdays.snowdaysctrl.activities.ParticipantListActivity;
 import com.snowdays.snowdaysctrl.models.Participant;
 
 import java.util.ArrayList;
@@ -19,10 +23,12 @@ import java.util.ArrayList;
 public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsListAdapter.ViewHolder> {
 
     private ArrayList<Participant> mDataset;
+    private Context c;
     private Boolean flag; // Determines if we should put the done icon or the todo icon
 
-    public ParticipantsListAdapter(ArrayList<Participant> participants) {
+    public ParticipantsListAdapter(Context c, ArrayList<Participant> participants) {
         mDataset = participants;
+        this.c = c;
     }
 
     @Override
@@ -41,6 +47,9 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
 
         holder.mTextView.setText(element.getFirstName() + " " + element.getLastName());
         holder.mTextViewDorm.setText(element.getId());
+
+        ParticipantListener participantListener = new ParticipantListener(element.getFirstName() + " " + element.getLastName(), element.getEmail(), element.getId(), c);
+        holder.itemView.setOnClickListener(participantListener);
     }
 
     @Override
@@ -71,5 +80,27 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
             mTextViewDorm = (TextView) v.findViewById(R.id.participant_list_dorm);
         }
 
+    }
+
+    public class ParticipantListener implements View.OnClickListener {
+        Context c;
+        String extraID;
+        String extraName;
+        String extraMobile;
+
+        public ParticipantListener(String extraName, String extraMobile, String extraID, Context myContext) {
+            this.c = myContext;
+            this.extraID = extraID;
+            this.extraName = extraName;
+            this.extraMobile = extraMobile;
+        }
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(c, ParticipantDetail.class);
+            intent.putExtra("ID", extraID);
+            intent.putExtra("Name", extraName);
+            intent.putExtra("Mobile", extraMobile);
+            c.startActivity(intent);
+        }
     }
 }
