@@ -1,5 +1,7 @@
 package com.snowdays.snowdaysctrl.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
+import com.snowdays.snowdaysctrl.activities.ParticipantDetail;
+import com.snowdays.snowdaysctrl.activities.ParticipantListActivity;
 import com.snowdays.snowdaysctrl.models.Participant;
 
 import java.util.ArrayList;
@@ -19,10 +23,20 @@ import java.util.ArrayList;
 public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsListAdapter.ViewHolder> {
 
     private ArrayList<Participant> mDataset;
+    private Context c;
     private Boolean flag; // Determines if we should put the done icon or the todo icon
 
-    public ParticipantsListAdapter(ArrayList<Participant> participants) {
+    public ParticipantsListAdapter(Context c, ArrayList<Participant> participants) {
         mDataset = participants;
+        this.c = c;
+    }
+
+    public void resetmDataset() {
+        this.mDataset = new ArrayList<>();
+    }
+
+    public ArrayList<Participant> getmDataset() {
+        return this.mDataset;
     }
 
     @Override
@@ -39,7 +53,11 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
         int drawableIconID = (flag) ? R.drawable.ic_done : R.drawable.ic_todo;
         holder.mIconView.setImageResource(drawableIconID);
 
-        holder.mTextView.setText(element.getId());
+        holder.mTextView.setText(element.getFirstName() + " " + element.getLastName());
+        holder.mTextViewDorm.setText(element.getId());
+
+        ParticipantListener participantListener = new ParticipantListener(element, c);
+        holder.itemView.setOnClickListener(participantListener);
     }
 
     @Override
@@ -60,13 +78,32 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView mTextView;
+        public TextView mTextViewDorm;
         public ImageView mIconView;
 
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.participant_list_text);
             mIconView = (ImageView) v.findViewById(R.id.participant_list_icon);
+            mTextViewDorm = (TextView) v.findViewById(R.id.participant_list_dorm);
         }
 
+    }
+
+    public class ParticipantListener implements View.OnClickListener {
+        Context c;
+        Participant p;
+
+        public ParticipantListener(Participant myParticipant, Context myContext) {
+            this.c = myContext;
+            this.p = myParticipant;
+
+        }
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(c, ParticipantDetail.class);
+            intent.putExtra("Participant", p);
+            c.startActivity(intent);
+        }
     }
 }

@@ -1,12 +1,17 @@
 package com.snowdays.snowdaysctrl.activities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import com.snowdays.snowdaysctrl.R;
@@ -34,6 +39,7 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
     private RecyclerView mRecyclerView;
     private ParticipantsListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private static ArrayList<Participant> dataSet;
     private ProgressBar mSpinner;
     private String actionKey;
     private String dayKey;
@@ -60,8 +66,9 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+
         // specify an adapter
-        mAdapter = new ParticipantsListAdapter(new ArrayList<Participant>());
+        mAdapter = new ParticipantsListAdapter(this, new ArrayList<Participant>());
         mRecyclerView.setAdapter(mAdapter);
 
         loadData();
@@ -77,6 +84,84 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_bar_list, menu);
+
+        // Sets the action of the search item
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchManager searchManager = (SearchManager) ParticipantListActivity.this.getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(ParticipantListActivity.this.getComponentName()));
+        }
+
+        dataSet = mAdapter.getmDataset();
+
+        // Here I set the TextListener for searching in the participant list
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            // On search command
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                updateDataset(query);
+                return false;
+            }
+
+            // On text change
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                updateDataset(newText);
+                return false;
+            }
+
+            private void updateDataset(String query) {
+                ArrayList<Participant> newDataSet = new ArrayList<Participant>();
+
+                for(int i = 0; i < dataSet.size(); i++) {
+
+                    Participant current = dataSet.get(i);
+                    String name = current.getFirstName().toLowerCase();
+                    String last = current.getLastName().toLowerCase();
+                    query = query.toLowerCase();
+
+                    // Each time the text changes I check if there is a participant whose name/surname/name + surname
+                    // starts with the inserted text.
+                    if(name.startsWith(query) || last.startsWith(query) ||  new String(name + " " + last).startsWith(query)) {
+                        newDataSet.add(current);
+                    }
+                }
+
+                mAdapter.resetmDataset();
+                if(!newDataSet.isEmpty()) {
+                    mAdapter.addItems(newDataSet, switch_value);
+                } else {
+                    mAdapter.addItems(dataSet, switch_value);
+                }
+            }
+        });
+
+        // With these two listeners I make sure that after the previous search or
+        // before a new search the dataset is complete.
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                mAdapter.resetmDataset();
+                mAdapter.addItems(dataSet, switch_value);
+                return false;
+            }
+        });
+
+        searchView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mAdapter.resetmDataset();
+                mAdapter.addItems(dataSet, switch_value);
+                return false;
+            }
+        });
+
         return true;
     }
 
@@ -91,6 +176,7 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
                 }
                 loadData();
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

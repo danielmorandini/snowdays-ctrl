@@ -22,6 +22,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.NFCActivity"
@@ -29,6 +32,7 @@
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.ParticipantListActivity"></activity>
+        <activity android:name=".activities.ParticipantDetail"/>
     </application>
 
 </manifest>
