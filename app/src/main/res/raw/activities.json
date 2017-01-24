@@ -57,30 +57,5 @@
       "actionKey": "meal2",
       "dayKey": "day3"
     }
-  ],
-  "utilities" :
-  [
-    {
-      "title" : "Util",
-      "actionKey": "util",
-      "dayKey": "day0"
-    }
   ]
-}
-
-"day1": {
-"bus1": false,
-"bus2": false
-},
-"day2": {
-"bus1": false,
-"bus2": false,
-"course": false,
-"meal1": false
-},
-"day3": {
-"bus1": false,
-"bus2": false,
-"meal1": false,
-"meal2": false
 }

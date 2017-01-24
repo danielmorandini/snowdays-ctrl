@@ -9,7 +9,6 @@ public class Activities {
     private MainCard[] thursday;
     private MainCard[] friday;
     private MainCard[] saturday;
-    private MainCard[] utilities;
 
     public MainCard[] getThursday() {
         return thursday;
@@ -21,9 +20,5 @@ public class Activities {
 
     public MainCard[] getSaturday() {
         return saturday;
-    }
-
-    public MainCard[] getUtilities() {
-        return utilities;
     }
 }

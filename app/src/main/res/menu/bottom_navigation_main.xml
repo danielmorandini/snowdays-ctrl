@@ -19,10 +19,4 @@
         android:icon="@drawable/ic_event_day"
         android:title="3rd"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/tab_utilities"
-        android:enabled="true"
-        android:icon="@drawable/ic_utilities"
-        android:title="Utils"
-        app:showAsAction="ifRoom" />
 </menu>
