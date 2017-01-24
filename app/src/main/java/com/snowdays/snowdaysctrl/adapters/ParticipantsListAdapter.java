@@ -56,7 +56,7 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
         holder.mTextView.setText(element.getFirstName() + " " + element.getLastName());
         holder.mTextViewDorm.setText(element.getId());
 
-        ParticipantListener participantListener = new ParticipantListener(element.getFirstName() + " " + element.getLastName(), element.getEmail(), element.getOwner(), c);
+        ParticipantListener participantListener = new ParticipantListener(element, c);
         holder.itemView.setOnClickListener(participantListener);
     }
 
@@ -92,22 +92,17 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
 
     public class ParticipantListener implements View.OnClickListener {
         Context c;
-        String extraDorm;
-        String extraName;
-        String extraMobile;
+        Participant p;
 
-        public ParticipantListener(String extraName, String extraMobile, String extraDorm, Context myContext) {
+        public ParticipantListener(Participant myParticipant, Context myContext) {
             this.c = myContext;
-            this.extraDorm = extraDorm;
-            this.extraName = extraName;
-            this.extraMobile = extraMobile;
+            this.p = myParticipant;
+
         }
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(c, ParticipantDetail.class);
-            intent.putExtra("Dorm", extraDorm);
-            intent.putExtra("Name", extraName);
-            intent.putExtra("Mobile", extraMobile);
+            intent.putExtra("Participant", p);
             c.startActivity(intent);
         }
     }
