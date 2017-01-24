@@ -105,6 +105,18 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
             // On search command
             @Override
             public boolean onQueryTextSubmit(String query) {
+                updateDataset(query);
+                return false;
+            }
+
+            // On text change
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                updateDataset(newText);
+                return false;
+            }
+
+            private void updateDataset(String query) {
                 ArrayList<Participant> newDataSet = new ArrayList<Participant>();
 
                 for(int i = 0; i < dataSet.size(); i++) {
@@ -114,46 +126,11 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
                     String last = current.getLastName().toLowerCase();
                     query = query.toLowerCase();
 
-                    // Check id there is a participant with the inserted name/surname/name + surname
-                    if(name.matches(query) || last.matches(query) || new String(name + " " + last).matches(query)) {
-                        newDataSet.add(current);
-                    }
-
-                }
-
-                // First I reset the dataset of the adapter to null.
-                // Then, if the new dataset is not empty (there are some search results)
-                // I set the new dataset otherwise I set the previous one.
-                mAdapter.resetmDataset();
-                if(!newDataSet.isEmpty()) {
-                    mAdapter.addItems(newDataSet, switch_value);
-                } else {
-                    mAdapter.addItems(dataSet, switch_value);
-                    setMessage("There is no " + query + " in the participant list");
-                }
-
-                return false;
-            }
-
-            // On text change
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                ArrayList<Participant> newDataSet = new ArrayList<Participant>();
-
-                for(int i = 0; i < dataSet.size(); i++) {
-
-                    Participant current = dataSet.get(i);
-                    String name = current.getFirstName().toLowerCase();
-                    String last = current.getLastName().toLowerCase();
-                    newText = newText.toLowerCase();
-
                     // Each time the text changes I check if there is a participant whose name/surname/name + surname
                     // starts with the inserted text.
-                    if(name.startsWith(newText) || last.startsWith(newText) ||  new String(name + " " + last).startsWith(newText)) {
+                    if(name.startsWith(query) || last.startsWith(query) ||  new String(name + " " + last).startsWith(query)) {
                         newDataSet.add(current);
                     }
-
                 }
 
                 mAdapter.resetmDataset();
@@ -162,8 +139,6 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
                 } else {
                     mAdapter.addItems(dataSet, switch_value);
                 }
-
-                return false;
             }
         });
 
