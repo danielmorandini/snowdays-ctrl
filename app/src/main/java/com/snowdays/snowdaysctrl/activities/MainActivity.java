@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment.setDatasource(activities.getSaturday());
                 break;
             default:
-                
+
         }
 
         //set current fragment

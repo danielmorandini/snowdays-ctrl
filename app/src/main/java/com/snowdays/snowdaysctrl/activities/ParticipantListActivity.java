@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.adapters.ParticipantsListAdapter;
@@ -22,6 +23,8 @@ import com.snowdays.snowdaysctrl.models.ResponseData;
 import com.snowdays.snowdaysctrl.utilities.ErrorUtils;
 import com.snowdays.snowdaysctrl.utilities.KeyStore;
 import com.snowdays.snowdaysctrl.utilities.NetworkService;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +40,7 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
 
     private Call<ResponseData<Participant[]>> mCall;
     private RecyclerView mRecyclerView;
+    private TextView mEmptyView;
     private ParticipantsListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private static ArrayList<Participant> dataSet;
@@ -57,6 +61,7 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
 
         mRecyclerView = (RecyclerView) findViewById(R.id.participant_list_recycler_view);
         mSpinner = (ProgressBar) findViewById(R.id.progress_bar_list);
+        mEmptyView = (TextView) findViewById(R.id.empty_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -75,6 +80,7 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
     }
 
     private void loadData() {
+        mEmptyView.setVisibility(View.GONE);
         mSpinner.setVisibility(ProgressBar.VISIBLE);
         mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), dayKey + "." + actionKey, switch_value);
         mCall.enqueue(this);
@@ -190,6 +196,15 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
 
         if (response.isSuccessful()) {
             ArrayList<Participant> data = new ArrayList<Participant>(Arrays.asList(response.body().getData()));
+
+            if (data.isEmpty()) {
+                mEmptyView.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.GONE);
+            } else {
+                mEmptyView.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+            }
+
             mAdapter.addItems(data, switch_value);
 
         } else {
