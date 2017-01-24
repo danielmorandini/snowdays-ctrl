@@ -31,6 +31,15 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
         this.c = c;
     }
 
+    public void setmDataset(ArrayList<Participant> dataset) {
+        this.mDataset = dataset;
+    }
+
+    public ArrayList<Participant> getmDataset() {
+
+        return this.mDataset;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
@@ -48,7 +57,7 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
         holder.mTextView.setText(element.getFirstName() + " " + element.getLastName());
         holder.mTextViewDorm.setText(element.getId());
 
-        ParticipantListener participantListener = new ParticipantListener(element.getFirstName() + " " + element.getLastName(), element.getEmail(), element.getId(), c);
+        ParticipantListener participantListener = new ParticipantListener(element.getFirstName() + " " + element.getLastName(), element.getEmail(), element.getOwner(), c);
         holder.itemView.setOnClickListener(participantListener);
     }
 
@@ -84,20 +93,20 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
 
     public class ParticipantListener implements View.OnClickListener {
         Context c;
-        String extraID;
+        String extraDorm;
         String extraName;
         String extraMobile;
 
-        public ParticipantListener(String extraName, String extraMobile, String extraID, Context myContext) {
+        public ParticipantListener(String extraName, String extraMobile, String extraDorm, Context myContext) {
             this.c = myContext;
-            this.extraID = extraID;
+            this.extraDorm = extraDorm;
             this.extraName = extraName;
             this.extraMobile = extraMobile;
         }
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(c, ParticipantDetail.class);
-            intent.putExtra("ID", extraID);
+            intent.putExtra("Dorm", extraDorm);
             intent.putExtra("Name", extraName);
             intent.putExtra("Mobile", extraMobile);
             c.startActivity(intent);

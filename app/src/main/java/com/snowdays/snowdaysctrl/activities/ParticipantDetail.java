@@ -26,7 +26,7 @@ import retrofit2.Response;
 
 public class ParticipantDetail extends BaseActivity {
 
-    public static final String ID = "ID";
+    public static final String DORM = "Dorm";
     public static final String NAME = "Name";
     public static final String MOBILE = "Mobile";
 
@@ -39,7 +39,7 @@ public class ParticipantDetail extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_detail);
 
-        participantID = getIntent().getStringExtra(ID);
+        participantID = getIntent().getStringExtra(DORM);
         participantName = getIntent().getStringExtra(NAME);
         participantMobile = getIntent().getStringExtra(MOBILE);
 
