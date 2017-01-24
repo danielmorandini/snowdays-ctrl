@@ -79,9 +79,7 @@ public class LoginActivity extends BaseActivity implements Callback<ResponseData
         // Start Progress view
         showProgress();
 
-        // TODO: remove dummy data
-        //mCall = NetworkService.getInstance().login(mEmailView.getText().toString(), mPasswordView.getText().toString());
-        mCall = NetworkService.getInstance().login("danielmorandini", "ciao");
+        mCall = NetworkService.getInstance().login(mEmailView.getText().toString(), mPasswordView.getText().toString());
         mCall.enqueue(this);
     }
 
