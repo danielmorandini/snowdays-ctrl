@@ -17,8 +17,11 @@ public class Participant implements Parcelable {
     private String token;
     private String owner;
     private String email;
+    private String phone;
     private String firstName;
     private String lastName;
+    private String gender;
+    private String university;
     private Boolean isVolleyPlayer;
     private Boolean isFootballPlayer;
     private Boolean hasPersonalID;
@@ -102,6 +105,18 @@ public class Participant implements Parcelable {
 
     public Day3 getDay3() {
         return day3;
+    }
+
+    public String getUniversity() {
+        return university;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     @Override

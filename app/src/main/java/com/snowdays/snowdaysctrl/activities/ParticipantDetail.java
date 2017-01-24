@@ -28,13 +28,30 @@ public class ParticipantDetail extends BaseActivity {
     }
 
     public void initUI() {
+        // General
         TextView name = (TextView) findViewById(R.id.participant_name);
+        TextView surname = (TextView) findViewById(R.id.participant_surname);
+        TextView university = (TextView) findViewById(R.id.participant_university);
+        TextView gender = (TextView) findViewById(R.id.participant_gender);
+
+        // Contact
+        TextView mobile = (TextView) findViewById(R.id.participant_phone);
+        TextView email = (TextView) findViewById(R.id.participant_email);
+
+        //Event
         TextView dorm = (TextView) findViewById(R.id.participant_dorm);
-        TextView mobile = (TextView) findViewById(R.id.participant_mobile);
 
-        name.setText(participant.getFirstName() + " " + participant.getLastName());
+        // Add data
+        name.setText(participant.getFirstName());
+        surname.setText(participant.getLastName());
+        university.setText(participant.getUniversity());
+        gender.setText(participant.getGender());
+
+        //TODO: add phone
+        mobile.setText(participant.getPhone());
+        email.setText(participant.getEmail());
+
+        //TODO: add dorm
         dorm.setText(participant.getId());
-        mobile.setText(participant.getEmail());
-
     }
 }
