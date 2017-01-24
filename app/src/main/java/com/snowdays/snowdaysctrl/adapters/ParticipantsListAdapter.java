@@ -31,12 +31,11 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
         this.c = c;
     }
 
-    public void setmDataset(ArrayList<Participant> dataset) {
-        this.mDataset = dataset;
+    public void resetmDataset() {
+        this.mDataset = new ArrayList<>();
     }
 
     public ArrayList<Participant> getmDataset() {
-
         return this.mDataset;
     }
 
