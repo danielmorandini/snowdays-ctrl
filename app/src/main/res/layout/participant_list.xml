@@ -3,33 +3,33 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/activity_horizontal_margin"
     android:id="@+id/participant_list">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:id="@+id/linear_layout">
+
         <LinearLayout
-            android:layout_width="330dp"
-            android:layout_height="60dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
         <TextView
-            android:layout_width="330dp"
-            android:layout_weight="1"
-            android:layout_height="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="left"
-            android:layout_marginLeft="10dp"
             android:textStyle="bold"
             android:textSize="20dp"
             android:textColor="@color/colorPrimaryDark"
             android:id="@+id/participant_list_text"/>
         <TextView
-            android:layout_width="330dp"
-            android:layout_weight="1"
-            android:layout_height="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="left"
-            android:layout_marginLeft="10dp"
             android:textSize="15dp"
             android:id="@+id/participant_list_dorm"/>
         </LinearLayout>
@@ -37,12 +37,11 @@
     <ImageView
         android:id="@+id/participant_list_icon"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_weight="0.10"/>
+        android:layout_height="match_parent" />
     </LinearLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/linear_layout"
         android:background="#c0c0c0">

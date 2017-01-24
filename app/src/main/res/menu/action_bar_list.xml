@@ -11,7 +11,6 @@
     <item
         android:id="@+id/action_switch_list"
         android:icon="@drawable/ic_switch_list"
-        android:title="Logout"
-        app:showAsAction="ifRoom"/>
+        android:title="switch list" />
 
 </menu>
