@@ -10,6 +10,16 @@
       "title" : "Bus 2",
       "actionKey": "bus2",
       "dayKey": "day1"
+    },
+    {
+      "title" : "Activity",
+      "actionKey": "activity",
+      "dayKey": "day1"
+    },
+    {
+      "title" : "Rental",
+      "actionKey": "rental",
+      "dayKey": "day1"
     }
   ],
   "friday" :
@@ -25,13 +35,23 @@
       "dayKey": "day2"
     },
     {
+      "title" : "Activity",
+      "actionKey": "activity",
+      "dayKey": "day2"
+    },
+    {
+      "title" : "Rental",
+      "actionKey": "rental",
+      "dayKey": "day2"
+    },
+    {
       "title" : "Course",
       "actionKey": "course",
       "dayKey": "day2"
     },
     {
       "title" : "Meal",
-      "actionKey": "meal",
+      "actionKey": "meal1",
       "dayKey": "day2"
     }
   ],
