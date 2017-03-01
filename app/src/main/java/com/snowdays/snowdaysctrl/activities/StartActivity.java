@@ -12,8 +12,6 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
-
         // Starting point of our application. Check if token is already saved,
         // otherwise open login view
         Intent intent;
