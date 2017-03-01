@@ -61,6 +61,7 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
                 Intent intent = new Intent(this, ParticipantListActivity.class);
                 intent.putExtra(ParticipantListActivity.ARG_ACTION_KEY, mCard.getActionKey());
                 intent.putExtra(ParticipantListActivity.ARG_DAY_KEY, mCard.getmDayKey());
+                intent.putExtra("myTitle", mCard.getTitle());
                 startActivity(intent);
                 return true;
             default:
