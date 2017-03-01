@@ -37,7 +37,7 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.participant_list_recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.cards_list);
         mSpinner = (ProgressBar) findViewById(R.id.progress_bar_list);
         mEmptyView = (TextView) findViewById(R.id.empty_view);
 

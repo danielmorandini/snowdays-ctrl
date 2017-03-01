@@ -38,7 +38,6 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_participant_list);
 
         // Retrieve String from intent
         actionKey = getIntent().getStringExtra(ARG_ACTION_KEY);

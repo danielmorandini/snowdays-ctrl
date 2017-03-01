@@ -13,6 +13,7 @@ import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.models.MainCard;
 import com.snowdays.snowdaysctrl.models.ResponseData;
 import com.snowdays.snowdaysctrl.utilities.KeyStore;
+import com.snowdays.snowdaysctrl.utilities.NetworkService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +28,6 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         // specify an adapter
         mAdapter = new MainCardListAdapter(new ArrayList<MainCard>());
@@ -64,7 +64,7 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
     public void loadData() {
         mEmptyView.setVisibility(View.GONE);
         mSpinner.setVisibility(ProgressBar.VISIBLE);
-        //mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), dayKey + "." + actionKey, switch_value);
+        mCall = NetworkService.getInstance().getActivities(getHeaders());
         mCall.enqueue(this);
     }
 
