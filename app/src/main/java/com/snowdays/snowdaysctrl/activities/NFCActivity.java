@@ -3,6 +3,7 @@ package com.snowdays.snowdaysctrl.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +32,6 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
     public final static String EXTRA_CARD = "com.snowdays.snowdaysctrl.EXTRA_CARD";
     private MainCard mCard;
     private FragmentStack mStack;
-
     // UI
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
 
         // Retrieve card info from intent
         mCard = (MainCard) getIntent().getSerializableExtra(EXTRA_CARD);
+        getSupportActionBar().setTitle(mCard.getTitle());
 
         // Stack that will host the fragments that handle the visual responses of this view
         mStack = new FragmentStack();
