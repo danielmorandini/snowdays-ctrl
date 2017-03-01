@@ -47,6 +47,7 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
     private ProgressBar mSpinner;
     private String actionKey;
     private String dayKey;
+    private String title;
     private Boolean switch_value = false; // Value that decides if to fetch users that have already done this activity of not
 
 
@@ -58,6 +59,9 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
         // Retrieve String from intent
         actionKey = getIntent().getStringExtra(ARG_ACTION_KEY);
         dayKey = getIntent().getStringExtra(ARG_DAY_KEY);
+        title = getIntent().getStringExtra("myTitle");
+
+        getSupportActionBar().setTitle(title);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.participant_list_recycler_view);
         mSpinner = (ProgressBar) findViewById(R.id.progress_bar_list);
