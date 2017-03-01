@@ -4,7 +4,8 @@
     {
       "title" : "Bus 1",
       "actionKey": "bus1",
-      "dayKey": "day1"
+      "dayKey": "day1",
+      "actionType": "GET"
     },
     {
       "title" : "Bus 2",

@@ -1,50 +1,40 @@
 package com.snowdays.snowdaysctrl.activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-import com.snowdays.snowdaysctrl.fragments.MainFragment;
-import com.snowdays.snowdaysctrl.models.Activities;
+import com.snowdays.snowdaysctrl.adapters.MainCardListAdapter;
 import com.snowdays.snowdaysctrl.R;
+import com.snowdays.snowdaysctrl.models.MainCard;
+import com.snowdays.snowdaysctrl.models.ResponseData;
 import com.snowdays.snowdaysctrl.utilities.KeyStore;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Response;
 
-    private Activities activities;
+public class MainActivity extends BaseNetworkActivity<MainCard[]> {
+
+    private MainCardListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // specify an adapter
+        mAdapter = new MainCardListAdapter(new ArrayList<MainCard>());
+        mRecyclerView.setAdapter(mAdapter);
+
         // load data
         loadData();
-
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.bottom_navigation);
-
-        setFragmentWithTabId(R.id.tab_first_day);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        setFragmentWithTabId(item.getItemId());
-                        return true;
-                    }
-                });
     }
 
     @Override
@@ -71,40 +61,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setFragmentWithTabId(int tabId) {
-        MainFragment fragment = new MainFragment();
-
-        switch (tabId) {
-            case R.id.tab_first_day:
-                fragment.setDatasource(activities.getThursday());
-                break;
-            case R.id.tab_second_day:
-                fragment.setDatasource(activities.getFriday());
-                break;
-            case R.id.tab_third_day:
-                fragment.setDatasource(activities.getSaturday());
-                break;
-            default:
-
-        }
-
-        //set current fragment
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commitAllowingStateLoss();
+    public void loadData() {
+        mEmptyView.setVisibility(View.GONE);
+        mSpinner.setVisibility(ProgressBar.VISIBLE);
+        //mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), dayKey + "." + actionKey, switch_value);
+        mCall.enqueue(this);
     }
 
-    public void loadData() {
-        Gson gson = new Gson();
+    // Update
 
-        try {
-            InputStream stream = getApplicationContext().getResources().openRawResource(R.raw.activities);
-            JsonReader json = new JsonReader(new InputStreamReader(stream, "UTF-8"));
-            activities =  gson.fromJson(json, Activities.class);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+    @Override
+    public void onResponse(Call<ResponseData<MainCard[]>> call, Response<ResponseData<MainCard[]>> response) {
+        super.onResponse(call, response);
+        if (response.isSuccessful()) {
+            ArrayList<MainCard> data = new ArrayList<MainCard>(Arrays.asList(response.body().getData()));
+
+            mAdapter.addItems(data);
         }
+    }
+
+    @Override
+    public void onFailure(Call<ResponseData<MainCard[]>> call, Throwable t) {
+        super.onFailure(call, t);
     }
 }
 

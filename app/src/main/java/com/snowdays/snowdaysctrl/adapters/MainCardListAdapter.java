@@ -10,15 +10,17 @@ import android.widget.TextView;
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.models.MainCard;
 
+import java.util.ArrayList;
+
 /**
  * Created by danielmorandini on 19/12/2016.
  */
 
 public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapter.ViewHolder> {
-    private MainCard[] mDataset;
+    private ArrayList<MainCard> mDataset;
     private OnClickListerner mDelegate;
 
-    public MainCardListAdapter(MainCard[] dataset) {
+    public MainCardListAdapter(ArrayList<MainCard> dataset) {
         mDataset = dataset;
     }
 
@@ -31,17 +33,23 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
 
     @Override
     public void onBindViewHolder(MainCardListAdapter.ViewHolder holder, int position) {
-        MainCard element = mDataset[position];
+        MainCard element = mDataset.get(position);
         holder.mTextView.setText(element.getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 
     public void setDelegate(OnClickListerner mDelegate) {
         this.mDelegate = mDelegate;
+    }
+
+    public void addItems(ArrayList<MainCard> cards) {
+        mDataset.clear();
+        mDataset.addAll(cards);
+        notifyDataSetChanged();
     }
 
     // Provide a reference to the views for each data item
@@ -60,7 +68,7 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
         public void onClick(View view) {
 
             if (mDelegate == null || getAdapterPosition() == RecyclerView.NO_POSITION) return;
-            mDelegate.onButtonClick(mDataset[getAdapterPosition()]);
+            mDelegate.onButtonClick(mDataset.get(getAdapterPosition()));
         }
     }
 
