@@ -20,12 +20,14 @@ public class Participant implements Parcelable {
     private String phone;
     private String firstName;
     private String lastName;
+    private String dorm;
     private String gender;
     private String university;
     private Boolean isVolleyPlayer;
     private Boolean isFootballPlayer;
     private Boolean hasPersonalID;
     private Boolean hasStudentID;
+
 
     private Day1 day1;
     private Day2 day2;
@@ -41,6 +43,8 @@ public class Participant implements Parcelable {
         email = in.readString();
         firstName = in.readString();
         lastName = in.readString();
+        dorm = in.readString();
+        phone = in.readString();
     }
 
     public static final Creator<Participant> CREATOR = new Creator<Participant>() {
@@ -78,6 +82,8 @@ public class Participant implements Parcelable {
     public String getLastName() {
         return lastName;
     }
+
+    public String getDorm() { return dorm; }
 
     public Boolean getVolleyPlayer() {
         return isVolleyPlayer;
@@ -132,5 +138,7 @@ public class Participant implements Parcelable {
         dest.writeString(email);
         dest.writeString(firstName);
         dest.writeString(lastName);
+        dest.writeString(dorm);
+        dest.writeString(phone);
     }
 }
