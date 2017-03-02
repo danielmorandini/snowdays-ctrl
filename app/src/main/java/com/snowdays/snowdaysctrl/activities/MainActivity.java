@@ -2,6 +2,7 @@ package com.snowdays.snowdaysctrl.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -62,10 +63,8 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
     }
 
     public void loadData() {
-        mEmptyView.setVisibility(View.GONE);
-        mSpinner.setVisibility(ProgressBar.VISIBLE);
         mCall = NetworkService.getInstance().getActivities(getHeaders());
-        mCall.enqueue(this);
+        loadData(mCall);
     }
 
     // Update

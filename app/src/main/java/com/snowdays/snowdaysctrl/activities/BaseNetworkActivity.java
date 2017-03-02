@@ -3,9 +3,9 @@ package com.snowdays.snowdaysctrl.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.models.APIErrorResponse;
@@ -28,7 +28,7 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
     public RecyclerView mRecyclerView;
     public RecyclerView.LayoutManager mLayoutManager;
     public ProgressBar mSpinner;
-    public TextView mEmptyView;
+    public View mEmptyView;
 
     public Call<ResponseData<T>> mCall;
 
@@ -39,7 +39,7 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
 
         mRecyclerView = (RecyclerView) findViewById(R.id.cards_list);
         mSpinner = (ProgressBar) findViewById(R.id.progress_bar_list);
-        mEmptyView = (TextView) findViewById(R.id.empty_view);
+        mEmptyView = (View) findViewById(R.id.empty_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -51,8 +51,10 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
     }
 
     public void loadData(Call<ResponseData<T>> call) {
+        mRecyclerView.setVisibility(View.GONE);
         mEmptyView.setVisibility(View.GONE);
         mSpinner.setVisibility(ProgressBar.VISIBLE);
+
         mCall = call;
         mCall.enqueue(this);
     }
@@ -64,13 +66,7 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
         if (response.isSuccessful()) {
             ArrayList<T> data = new ArrayList<T>(Arrays.asList(response.body().getData()));
 
-            if (data.isEmpty()) {
-                mEmptyView.setVisibility(View.VISIBLE);
-                mRecyclerView.setVisibility(View.GONE);
-            } else {
-                mEmptyView.setVisibility(View.GONE);
-                mRecyclerView.setVisibility(View.VISIBLE);
-            }
+            showEmptyView(data.isEmpty());
 
         } else {
             APIErrorResponse error = ErrorUtils.parseError(response);
@@ -79,6 +75,7 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
             } else {
                 setMessage("Error while reading server's response");
             }
+            showEmptyView(mRecyclerView.getAdapter().getItemCount() == 0);
         }
     }
 
@@ -87,5 +84,16 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
         mSpinner.setVisibility(ProgressBar.GONE);
 
         setMessage("Error while contacting the server");
+        showEmptyView(mRecyclerView.getAdapter().getItemCount() == 0);
+    }
+
+    private void showEmptyView(boolean doIt) {
+        if (doIt) {
+            mEmptyView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+        } else {
+            mEmptyView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
     }
 }
