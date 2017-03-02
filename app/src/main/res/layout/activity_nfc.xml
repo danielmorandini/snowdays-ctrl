@@ -11,10 +11,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.snowdays.snowdaysctrl.activities.NFCActivity">
 
-    <nordpol.android.NfcGuideView
-        android:id="@+id/nfc_guide_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="18dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_007_multimedia"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/nfc_fragment_container"

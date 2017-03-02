@@ -10,7 +10,7 @@
         android:id="@+id/progress_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_check_box"
+        android:src="@drawable/ic_001_empty_check"
         android:layout_marginRight="8dp"/>
 
     <LinearLayout
@@ -22,7 +22,7 @@
         <TextView
             android:id="@+id/progress_text"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="25dp"
             android:layout_marginRight="6dp"
             android:text="Scannig with NFC"/>
 
