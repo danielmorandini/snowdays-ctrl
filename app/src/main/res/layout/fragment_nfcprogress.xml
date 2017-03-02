@@ -4,38 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
+    android:gravity="center_vertical"
     tools:context="com.snowdays.snowdaysctrl.fragments.NFCProgressFragment">
 
     <ImageView
         android:id="@+id/progress_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:src="@drawable/ic_001_empty_check"
         android:layout_marginRight="8dp"/>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/progress_text"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:gravity="center"
+        android:layout_marginRight="6dp"
+        android:text="Scannig with NFC"/>
 
-        <TextView
-            android:id="@+id/progress_text"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_marginRight="6dp"
-            android:text="Scannig with NFC"/>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:theme="@style/CircularProgress"
+        style="@android:style/Widget.Holo.ProgressBar.Small"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:indeterminate="true"
+        android:visibility="visible"/>
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:theme="@style/CircularProgress"
-            style="@android:style/Widget.Holo.ProgressBar.Small"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="visible"/>
-
-    </LinearLayout>
 
 </LinearLayout>
