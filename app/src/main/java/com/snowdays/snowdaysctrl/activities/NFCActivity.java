@@ -38,6 +38,8 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc);
 
+        loadToolbar();
+
         // Retrieve card info from intent
         mCard = (MainCard) getIntent().getSerializableExtra(EXTRA_CARD);
         getSupportActionBar().setTitle(mCard.getTitle());

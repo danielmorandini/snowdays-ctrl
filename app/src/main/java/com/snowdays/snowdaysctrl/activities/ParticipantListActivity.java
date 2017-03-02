@@ -39,6 +39,8 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        loadToolbar();
+
         // Retrieve String from intent
         actionKey = getIntent().getStringExtra(ARG_ACTION_KEY);
         dayKey = getIntent().getStringExtra(ARG_DAY_KEY);

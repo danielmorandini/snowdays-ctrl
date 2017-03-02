@@ -22,6 +22,8 @@ public class ParticipantDetail extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_detail);
 
+        loadToolbar();
+
         participant = getIntent().getParcelableExtra(PARTICIPANT);
 
         initUI();

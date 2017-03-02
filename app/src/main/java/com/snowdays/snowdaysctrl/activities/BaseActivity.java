@@ -1,8 +1,6 @@
 package com.snowdays.snowdaysctrl.activities;
 
-import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,11 +18,6 @@ import java.util.Map;
 
 public class BaseActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     // Utils
     public Map<String, String> getHeaders() {
         Map<String, String> map = new HashMap<>();
@@ -40,7 +33,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void loadToolbar() {
-        Toolbar actionToolbar = (Toolbar) findViewById(R.id.snowdays_toolbar);
-        setSupportActionBar(actionToolbar);
+        setSupportActionBar((Toolbar) findViewById(R.id.snowdays_toolbar));
+
+        // Get the ActionBar here to configure the way it behaves.
+        getSupportActionBar().setDisplayShowHomeEnabled(true); // show or hide the default home button;
     }
 }
