@@ -42,7 +42,7 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
         title = getIntent().getStringExtra("myTitle");
 
         loadToolbar(title);
-        
+
         // Adapter
         // specify an adapter
         mAdapter = new ParticipantsListAdapter(this, new ArrayList<Participant>());

@@ -52,7 +52,7 @@ public class NetworkService {
             mRetrofit = new Retrofit.Builder()
                     .baseUrl("https://www.snowdays.it")
                     .client(clientBuilder.build())
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
 
@@ -65,7 +65,7 @@ public class NetworkService {
         public Date deserialize(JsonElement element, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
             String date = element.getAsString();
 
-            SimpleDateFormat longDateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+            SimpleDateFormat longDateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
             longDateFormatter.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
 
             try {

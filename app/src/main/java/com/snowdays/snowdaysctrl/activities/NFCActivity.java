@@ -38,10 +38,10 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc);
 
-        loadToolbar(mCard.getTitle());
-
         // Retrieve card info from intent
         mCard = (MainCard) getIntent().getSerializableExtra(EXTRA_CARD);
+
+        loadToolbar(mCard.getName());
 
         // Stack that will host the fragments that handle the visual responses of this view
         mStack = new FragmentStack();
@@ -60,8 +60,8 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
             case R.id.action_logout:
 
                 Intent intent = new Intent(this, ParticipantListActivity.class);
-                intent.putExtra(ParticipantListActivity.ARG_ACTION_KEY, mCard.getActionKey());
-                intent.putExtra("myTitle", mCard.getTitle());
+                intent.putExtra(ParticipantListActivity.ARG_ACTION_KEY, mCard.getCheckAction());
+                intent.putExtra("myTitle", mCard.getName());
                 startActivity(intent);
                 return true;
             default:
@@ -114,7 +114,7 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
 
         HashMap<String, HashMap<String, Boolean>> body = new HashMap<>();
         HashMap<String, Boolean> innerBody = new HashMap<>();
-        innerBody.put(mCard.getActionKey(), true);
+        innerBody.put(mCard.getCheckAction(), true);
 
         mCall = NetworkService.getInstance().updateParticipant(getHeaders(), participantId, body);
         mCall.enqueue(this);
@@ -127,7 +127,7 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
         if (response.isSuccessful()) {
             NFCProgressFragment item = mStack.peek();
             item.taskDone();
-            setMessage("PARTICIPANT UPDATED WITH KEY " + mCard.getActionKey());
+            setMessage("PARTICIPANT UPDATED WITH KEY " + mCard.getCheckAction());
         } else {
             APIErrorResponse error = ErrorUtils.parseError(response);
             if (error.message() != null && error.message().length() > 0) {

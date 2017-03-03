@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.snowdays.snowdaysctrl.adapters.MainCardListAdapter;
 import com.snowdays.snowdaysctrl.R;
@@ -35,7 +33,7 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
         loadToolbar(getString(R.string.app_name));
 
         // specify an adapter
-        mAdapter = new MainCardListAdapter(new ArrayList<MainCard>());
+        mAdapter = new MainCardListAdapter(new ArrayList<MainCard>(), this);
         mRecyclerView.setAdapter(mAdapter);
 
         // Floating button actions

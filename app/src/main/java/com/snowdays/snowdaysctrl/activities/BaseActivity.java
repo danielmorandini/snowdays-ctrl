@@ -37,7 +37,7 @@ public class BaseActivity extends AppCompatActivity {
 
         // Get the ActionBar here to configure the way it behaves.
         getSupportActionBar().setDisplayShowHomeEnabled(true); // show or hide the default home button;
-        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setTitle("  " + title);
         getSupportActionBar().setIcon(R.drawable.ic_snowdays_snowflake);
     }
 }
