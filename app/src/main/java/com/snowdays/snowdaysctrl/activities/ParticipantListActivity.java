@@ -25,10 +25,8 @@ import retrofit2.Response;
 
 public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> {
     public static final String ARG_ACTION_KEY = "ARG_ACTION_KEY";
-    public static final String ARG_DAY_KEY = "ARG_DAY_KEY";
 
     private String actionKey;
-    private String dayKey;
     private String title;
     private Boolean switch_value = false; // Value that decides if to fetch users that have already done this activity of not
 
@@ -39,15 +37,12 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loadToolbar();
-
         // Retrieve String from intent
         actionKey = getIntent().getStringExtra(ARG_ACTION_KEY);
-        dayKey = getIntent().getStringExtra(ARG_DAY_KEY);
         title = getIntent().getStringExtra("myTitle");
 
-        getSupportActionBar().setTitle(title);
-
+        loadToolbar(title);
+        
         // Adapter
         // specify an adapter
         mAdapter = new ParticipantsListAdapter(this, new ArrayList<Participant>());
@@ -57,7 +52,7 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
     }
 
     public void loadData() {
-        mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), dayKey + "." + actionKey, switch_value);
+        mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), actionKey, switch_value);
         loadData(mCall);
     }
 

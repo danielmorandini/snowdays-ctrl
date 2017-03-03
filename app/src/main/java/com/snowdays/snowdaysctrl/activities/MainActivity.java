@@ -32,6 +32,8 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        loadToolbar(getString(R.string.app_name));
+
         // specify an adapter
         mAdapter = new MainCardListAdapter(new ArrayList<MainCard>());
         mRecyclerView.setAdapter(mAdapter);

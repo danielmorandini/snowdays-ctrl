@@ -16,13 +16,12 @@ public class MainCard implements Serializable {
     private String mTitle;
     @SerializedName("actionKey")
     private String mActionKey;
-    @SerializedName("dayKey")
-    private String mDayKey;
+    @SerializedName("actionType")
+    private String mActionYype;
 
     public MainCard(String title, String actionKey, String dayKey) {
         mTitle = title;
         mActionKey = actionKey;
-        mDayKey = dayKey;
     }
 
     // Placeholder just for now
@@ -33,7 +32,7 @@ public class MainCard implements Serializable {
         return mTitle;
     }
     public String getActionKey() { return mActionKey; }
-    public String getmDayKey() {
-        return mDayKey;
+    public String getmActionYype() {
+        return mActionYype;
     }
 }

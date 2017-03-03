@@ -44,7 +44,7 @@ public class LoginActivity extends BaseActivity implements Callback<ResponseData
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loadToolbar();
+        loadToolbar(getString(R.string.app_name));
 
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.email);

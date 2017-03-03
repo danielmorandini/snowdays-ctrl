@@ -32,10 +32,12 @@ public class BaseActivity extends AppCompatActivity {
         Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    public void loadToolbar() {
-        setSupportActionBar((Toolbar) findViewById(R.id.snowdays_toolbar));
+    public void loadToolbar(String title) {
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         // Get the ActionBar here to configure the way it behaves.
         getSupportActionBar().setDisplayShowHomeEnabled(true); // show or hide the default home button;
+        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setIcon(R.drawable.ic_snowdays_snowflake);
     }
 }

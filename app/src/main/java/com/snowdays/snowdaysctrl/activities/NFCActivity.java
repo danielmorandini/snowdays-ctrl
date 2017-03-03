@@ -38,11 +38,10 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc);
 
-        loadToolbar();
+        loadToolbar(mCard.getTitle());
 
         // Retrieve card info from intent
         mCard = (MainCard) getIntent().getSerializableExtra(EXTRA_CARD);
-        getSupportActionBar().setTitle(mCard.getTitle());
 
         // Stack that will host the fragments that handle the visual responses of this view
         mStack = new FragmentStack();
@@ -62,7 +61,6 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
 
                 Intent intent = new Intent(this, ParticipantListActivity.class);
                 intent.putExtra(ParticipantListActivity.ARG_ACTION_KEY, mCard.getActionKey());
-                intent.putExtra(ParticipantListActivity.ARG_DAY_KEY, mCard.getmDayKey());
                 intent.putExtra("myTitle", mCard.getTitle());
                 startActivity(intent);
                 return true;
@@ -117,7 +115,6 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
         HashMap<String, HashMap<String, Boolean>> body = new HashMap<>();
         HashMap<String, Boolean> innerBody = new HashMap<>();
         innerBody.put(mCard.getActionKey(), true);
-        body.put(mCard.getmDayKey(), innerBody);
 
         mCall = NetworkService.getInstance().updateParticipant(getHeaders(), participantId, body);
         mCall.enqueue(this);
