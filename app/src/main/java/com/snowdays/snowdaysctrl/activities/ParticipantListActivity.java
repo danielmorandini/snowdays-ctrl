@@ -1,8 +1,11 @@
 package com.snowdays.snowdaysctrl.activities;
 
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -152,10 +155,35 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
                 }
                 loadData();
                 return true;
+            case R.id.action_filter:
+
+                AlertDialog dialog = (AlertDialog) onCreateDialog();
+                dialog.show();
+
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public Dialog onCreateDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ParticipantListActivity.this);
+
+        String[] dorms = {"Univercity", "Benedikt", "Marianum", "Carducci"};
+
+        builder.setTitle("Filter by dorm")
+                .setItems(dorms, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<Participant> newDataSet = new ArrayList<Participant>();
+
+                        for(int i = 0; i < dataSet.size(); i++) {
+
+                            Participant current = dataSet.get(i);
+
+                        }
+                    }
+                });
+        return builder.create();
     }
 
     // Update
