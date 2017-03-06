@@ -1,10 +1,21 @@
 package com.snowdays.snowdaysctrl.activities;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.PermissionChecker;
+import android.telephony.TelephonyManager;
+import android.view.View;
 import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.models.Participant;
+
+import java.security.Permission;
+import java.security.Permissions;
 
 
 /**
@@ -25,6 +36,7 @@ public class ParticipantDetail extends BaseActivity {
         loadToolbar(getString(R.string.app_name));
 
         participant = getIntent().getParcelableExtra(PARTICIPANT);
+        //participantInfo = getIntent().getParcelableExtra(PARTICIPANT);
 
         initUI();
     }
@@ -43,6 +55,22 @@ public class ParticipantDetail extends BaseActivity {
         //Event
         TextView dorm = (TextView) findViewById(R.id.participant_dorm);
 
+        mobile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + participant.getDorm()));
+                int checkPermission = ContextCompat.checkSelfPermission(v.getContext(), Manifest.permission.CALL_PHONE);
+                TelephonyManager telMgr = (TelephonyManager) getSystemService(v.getContext().TELEPHONY_SERVICE);
+                int simState = telMgr.getSimState();
+                if (checkPermission != PackageManager.PERMISSION_GRANTED && simState == TelephonyManager.SIM_STATE_READY) {
+                    startActivity(callIntent);
+                } else {
+                    setMessage("Error while trying to call");
+                }
+            }
+        });
+
         // Add data
         name.setText(participant.getFirstName());
         surname.setText(participant.getLastName());
@@ -54,6 +82,6 @@ public class ParticipantDetail extends BaseActivity {
         email.setText(participant.getEmail());
 
         //TODO: add dorm
-        dorm.setText(participant.getId());
+        dorm.setText(participant.getDorm());
     }
 }

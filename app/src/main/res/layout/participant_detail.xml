@@ -114,7 +114,7 @@
             android:layout_marginTop="@dimen/detail_top_margin_large"
             android:gravity="left"
             android:text="phone"
-            android:textSize="@dimen/detail_content_section_size"/>
+            android:textSize="@dimen/detail_content_section_size" />
 
         <View
             android:layout_width="match_parent"
@@ -142,7 +142,7 @@
             android:layout_marginBottom="@dimen/detail_bottom_margin_large"
             android:textStyle="bold"
             android:gravity="left"
-            android:text="Event"
+            android:text="Dorm"
             android:textSize="@dimen/detail_title_section_size"/>
 
         <TextView

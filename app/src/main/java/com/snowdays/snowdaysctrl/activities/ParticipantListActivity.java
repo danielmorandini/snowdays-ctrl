@@ -29,6 +29,9 @@ import retrofit2.Response;
 public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> {
     public static final String ARG_ACTION_KEY = "ARG_ACTION_KEY";
 
+
+    private static ArrayList<Participant> newDataSet;
+    private static String[] dorms = {"Univercity", "Benedikt", "Marianum", "Carducci"};
     private String actionKey;
     private String title;
     private Boolean switch_value = false; // Value that decides if to fetch users that have already done this activity of not
@@ -96,7 +99,7 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
             }
 
             private void updateDataset(String query) {
-                ArrayList<Participant> newDataSet = new ArrayList<Participant>();
+                newDataSet = new ArrayList<Participant>();
 
                 for(int i = 0; i < dataSet.size(); i++) {
 
@@ -189,17 +192,40 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
     public Dialog onCreateDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ParticipantListActivity.this);
 
-        String[] dorms = {"Univercity", "Benedikt", "Marianum", "Carducci"};
-
         builder.setTitle("Filter by dorm")
                 .setItems(dorms, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        ArrayList<Participant> newDataSet = new ArrayList<Participant>();
 
-                        for(int i = 0; i < dataSet.size(); i++) {
+                        if(newDataSet == null) {
+                            newDataSet = new ArrayList<Participant>();
+                        } else {
+                            for(int i = 0; i < newDataSet.size(); i++) {
+                                newDataSet.remove(i);
+                            }
+                        }
 
-                            Participant current = dataSet.get(i);
+                        if(!dataSet.isEmpty()) {
+                            for (int i = 0; i < dataSet.size(); i++) {
 
+                                Participant current = dataSet.get(i);
+
+                                if (current.getDorm() != null) {
+                                    if (current.getDorm().equals(dorms[which])) {
+                                        newDataSet.add(current);
+                                    }
+                                } else {
+                                    setMessage("current.getDorm() returns null");
+                                    break;
+                                }
+
+                            }
+
+                            mAdapter.resetmDataset();
+                            if (!newDataSet.isEmpty()) {
+                                mAdapter.addItems(newDataSet, switch_value);
+                            } else {
+                                mAdapter.addItems(dataSet, switch_value);
+                            }
                         }
                     }
                 });
