@@ -22,7 +22,7 @@ public class NFCProgressFragment extends Fragment {
     private TextView mTitleView;
     private ImageView mImageView;
 
-    // variables used to protect the view in case that the task ended before the view wa actually created
+    // variables used to protect the view in case that the task ended before the view was actually created
     private Boolean isDone = false;
     private Boolean failed = false;
 
@@ -75,7 +75,7 @@ public class NFCProgressFragment extends Fragment {
         if (mProgressBar == null || mImageView == null) return;
 
         mProgressBar.setVisibility(ProgressBar.INVISIBLE);
-        mImageView.setImageResource(R.drawable.ic_check_box_checked);
+        mImageView.setImageResource(R.drawable.ic_success);
     }
 
     public void taskFailed() {
@@ -83,6 +83,6 @@ public class NFCProgressFragment extends Fragment {
         if (mProgressBar == null || mImageView == null) return;
 
         mProgressBar.setVisibility(ProgressBar.INVISIBLE);
-        mImageView.setImageResource(R.drawable.ic_check_box_failed);
+        mImageView.setImageResource(R.drawable.ic_002_error);
     }
 }
