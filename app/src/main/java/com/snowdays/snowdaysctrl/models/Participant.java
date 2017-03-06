@@ -28,11 +28,6 @@ public class Participant implements Parcelable {
     private Boolean hasPersonalID;
     private Boolean hasStudentID;
 
-
-    private Day1 day1;
-    private Day2 day2;
-    private Day3 day3;
-
     public Participant() {
     }
 
@@ -99,18 +94,6 @@ public class Participant implements Parcelable {
 
     public Boolean getHasStudentID() {
         return hasStudentID;
-    }
-
-    public Day1 getDay1() {
-        return day1;
-    }
-
-    public Day2 getDay2() {
-        return day2;
-    }
-
-    public Day3 getDay3() {
-        return day3;
     }
 
     public String getUniversity() {

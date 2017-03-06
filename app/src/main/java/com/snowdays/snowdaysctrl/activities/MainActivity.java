@@ -1,50 +1,57 @@
 package com.snowdays.snowdaysctrl.activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-import com.snowdays.snowdaysctrl.fragments.MainFragment;
-import com.snowdays.snowdaysctrl.models.Activities;
+import com.snowdays.snowdaysctrl.adapters.MainCardListAdapter;
 import com.snowdays.snowdaysctrl.R;
+import com.snowdays.snowdaysctrl.models.MainCard;
+import com.snowdays.snowdaysctrl.models.ResponseData;
 import com.snowdays.snowdaysctrl.utilities.KeyStore;
+import com.snowdays.snowdaysctrl.utilities.NetworkService;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Response;
 
-    private Activities activities;
+public class MainActivity extends BaseNetworkActivity<MainCard[]> {
+
+    private MainCardListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        loadToolbar(getString(R.string.app_name));
+
+        // specify an adapter
+        mAdapter = new MainCardListAdapter(new ArrayList<MainCard>(), this);
+        mRecyclerView.setAdapter(mAdapter);
+
+        // Floating button actions
+        // TODO: Provide report action
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         // load data
         loadData();
-
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.bottom_navigation);
-
-        setFragmentWithTabId(R.id.tab_first_day);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        setFragmentWithTabId(item.getItemId());
-                        return true;
-                    }
-                });
     }
 
     @Override
@@ -58,53 +65,57 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                // Remove saved token and userId
-                KeyStore.clearAll(this);
 
-                // Return to the base activity
-                Intent intent = new Intent(this, StartActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                AlertDialog dialog = (AlertDialog) onCreateDialog();
+                dialog.show();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void setFragmentWithTabId(int tabId) {
-        MainFragment fragment = new MainFragment();
-
-        switch (tabId) {
-            case R.id.tab_first_day:
-                fragment.setDatasource(activities.getThursday());
-                break;
-            case R.id.tab_second_day:
-                fragment.setDatasource(activities.getFriday());
-                break;
-            case R.id.tab_third_day:
-                fragment.setDatasource(activities.getSaturday());
-                break;
-            default:
-
-        }
-
-        //set current fragment
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commitAllowingStateLoss();
+    public void loadData() {
+        mCall = NetworkService.getInstance().getActivities(getHeaders());
+        loadData(mCall);
     }
 
-    public void loadData() {
-        Gson gson = new Gson();
+    // Update
 
-        try {
-            InputStream stream = getApplicationContext().getResources().openRawResource(R.raw.activities);
-            JsonReader json = new JsonReader(new InputStreamReader(stream, "UTF-8"));
-            activities =  gson.fromJson(json, Activities.class);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+    @Override
+    public void onResponse(Call<ResponseData<MainCard[]>> call, Response<ResponseData<MainCard[]>> response) {
+        super.onResponse(call, response);
+        if (response.isSuccessful()) {
+            ArrayList<MainCard> data = new ArrayList<MainCard>(Arrays.asList(response.body().getData()));
+
+            mAdapter.addItems(data);
         }
+    }
+
+    @Override
+    public void onFailure(Call<ResponseData<MainCard[]>> call, Throwable t) {
+        super.onFailure(call, t);
+    }
+
+    public Dialog onCreateDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage(R.string.logout_alert_title)
+                .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Remove saved token and userId
+                        KeyStore.clearAll(MainActivity.this);
+
+                        // Return to the base activity
+                        Intent intent = new Intent(MainActivity.this, StartActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        return builder.create();
     }
 }
 

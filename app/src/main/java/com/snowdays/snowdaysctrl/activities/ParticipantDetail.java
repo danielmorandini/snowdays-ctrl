@@ -33,6 +33,8 @@ public class ParticipantDetail extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_detail);
 
+        loadToolbar(getString(R.string.app_name));
+
         participant = getIntent().getParcelableExtra(PARTICIPANT);
         //participantInfo = getIntent().getParcelableExtra(PARTICIPANT);
 

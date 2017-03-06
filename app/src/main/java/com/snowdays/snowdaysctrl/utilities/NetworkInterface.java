@@ -1,6 +1,7 @@
 package com.snowdays.snowdaysctrl.utilities;
 
 import com.snowdays.snowdaysctrl.models.LoginResponse;
+import com.snowdays.snowdaysctrl.models.MainCard;
 import com.snowdays.snowdaysctrl.models.Participant;
 import com.snowdays.snowdaysctrl.models.ResponseData;
 
@@ -48,5 +49,10 @@ public interface NetworkInterface {
             @HeaderMap Map<String, String> headers,
             @Query("fields") String fields,
             @Query("value") Boolean value
+    );
+
+    @GET("/api/v1/cards")
+    Call<ResponseData<MainCard[]>> getActivities(
+            @HeaderMap Map<String, String> headers
     );
 }

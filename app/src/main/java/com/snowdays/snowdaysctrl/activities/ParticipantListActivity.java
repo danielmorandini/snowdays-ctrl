@@ -4,86 +4,52 @@ import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.PopupWindow;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.adapters.ParticipantsListAdapter;
-import com.snowdays.snowdaysctrl.models.APIErrorResponse;
 import com.snowdays.snowdaysctrl.models.Participant;
 import com.snowdays.snowdaysctrl.models.ResponseData;
-import com.snowdays.snowdaysctrl.utilities.ErrorUtils;
-import com.snowdays.snowdaysctrl.utilities.KeyStore;
 import com.snowdays.snowdaysctrl.utilities.NetworkService;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ParticipantListActivity extends BaseActivity implements Callback<ResponseData<Participant[]>> {
+public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> {
     public static final String ARG_ACTION_KEY = "ARG_ACTION_KEY";
-    public static final String ARG_DAY_KEY = "ARG_DAY_KEY";
 
-    private Call<ResponseData<Participant[]>> mCall;
-    private RecyclerView mRecyclerView;
-    private TextView mEmptyView;
-    private ParticipantsListAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private static ArrayList<Participant> dataSet;
+
     private static ArrayList<Participant> newDataSet;
     private static String[] dorms = {"Univercity", "Benedikt", "Marianum", "Carducci"};
-    private ProgressBar mSpinner;
     private String actionKey;
-    private String dayKey;
     private String title;
     private Boolean switch_value = false; // Value that decides if to fetch users that have already done this activity of not
 
+    private static ArrayList<Participant> dataSet;
+    private ParticipantsListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_participant_list);
 
         // Retrieve String from intent
         actionKey = getIntent().getStringExtra(ARG_ACTION_KEY);
-        dayKey = getIntent().getStringExtra(ARG_DAY_KEY);
         title = getIntent().getStringExtra("myTitle");
 
-        getSupportActionBar().setTitle(title);
+        loadToolbar(title);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.participant_list_recycler_view);
-        mSpinner = (ProgressBar) findViewById(R.id.progress_bar_list);
-        mEmptyView = (TextView) findViewById(R.id.empty_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-
+        // Adapter
         // specify an adapter
         mAdapter = new ParticipantsListAdapter(this, new ArrayList<Participant>());
         mRecyclerView.setAdapter(mAdapter);
@@ -91,11 +57,9 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
         loadData();
     }
 
-    private void loadData() {
-        mEmptyView.setVisibility(View.GONE);
-        mSpinner.setVisibility(ProgressBar.VISIBLE);
-        mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), dayKey + "." + actionKey, switch_value);
-        mCall.enqueue(this);
+    public void loadData() {
+        mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), actionKey, switch_value);
+        loadData(mCall);
     }
 
     @Override
@@ -205,6 +169,26 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
         }
     }
 
+
+
+    // Update
+
+    @Override
+    public void onResponse(Call<ResponseData<Participant[]>> call, Response<ResponseData<Participant[]>> response) {
+        super.onResponse(call, response);
+
+        if (response.isSuccessful()) {
+            ArrayList<Participant> data = new ArrayList<Participant>(Arrays.asList(response.body().getData()));
+
+            mAdapter.addItems(data, switch_value);
+        }
+    }
+
+    @Override
+    public void onFailure(Call<ResponseData<Participant[]>> call, Throwable t) {
+        super.onFailure(call, t);
+    }
+
     public Dialog onCreateDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ParticipantListActivity.this);
 
@@ -246,41 +230,5 @@ public class ParticipantListActivity extends BaseActivity implements Callback<Re
                     }
                 });
         return builder.create();
-    }
-
-    // Update
-
-    @Override
-    public void onResponse(Call<ResponseData<Participant[]>> call, Response<ResponseData<Participant[]>> response) {
-        mSpinner.setVisibility(ProgressBar.GONE);
-
-        if (response.isSuccessful()) {
-            ArrayList<Participant> data = new ArrayList<Participant>(Arrays.asList(response.body().getData()));
-
-            if (data.isEmpty()) {
-                mEmptyView.setVisibility(View.VISIBLE);
-                mRecyclerView.setVisibility(View.GONE);
-            } else {
-                mEmptyView.setVisibility(View.GONE);
-                mRecyclerView.setVisibility(View.VISIBLE);
-            }
-
-            mAdapter.addItems(data, switch_value);
-
-        } else {
-            APIErrorResponse error = ErrorUtils.parseError(response);
-            if (error.message() != null && error.message().length() > 0) {
-                setMessage(error.message());
-            } else {
-                setMessage("Error while reading server's response");
-            }
-        }
-    }
-
-    @Override
-    public void onFailure(Call<ResponseData<Participant[]>> call, Throwable t) {
-        mSpinner.setVisibility(ProgressBar.GONE);
-
-        setMessage("Error while contacting the server");
     }
 }

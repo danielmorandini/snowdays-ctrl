@@ -32,8 +32,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.ParticipantListActivity"></activity>
-        <activity android:name=".activities.ParticipantDetail"/>
+        <activity android:name=".activities.ParticipantListActivity" />
+        <activity android:name=".activities.ParticipantDetail" />
     </application>
 
 </manifest>
