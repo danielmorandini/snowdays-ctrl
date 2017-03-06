@@ -23,4 +23,7 @@
     <string name="user_id_key">com.snowdays.snowdaysctrl.USER_ID_KEY</string>
     <string name="title_activity_main2">Main2Activity</string>
 
+    <!--- Strings realated to logout -->
+    <string name="logout_alert_title">Logout?</string>
+
 </resources>

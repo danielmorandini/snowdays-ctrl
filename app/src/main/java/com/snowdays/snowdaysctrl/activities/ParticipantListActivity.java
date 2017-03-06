@@ -166,6 +166,26 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
         }
     }
 
+
+
+    // Update
+
+    @Override
+    public void onResponse(Call<ResponseData<Participant[]>> call, Response<ResponseData<Participant[]>> response) {
+        super.onResponse(call, response);
+
+        if (response.isSuccessful()) {
+            ArrayList<Participant> data = new ArrayList<Participant>(Arrays.asList(response.body().getData()));
+
+            mAdapter.addItems(data, switch_value);
+        }
+    }
+
+    @Override
+    public void onFailure(Call<ResponseData<Participant[]>> call, Throwable t) {
+        super.onFailure(call, t);
+    }
+
     public Dialog onCreateDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ParticipantListActivity.this);
 
@@ -184,23 +204,5 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
                     }
                 });
         return builder.create();
-    }
-
-    // Update
-
-    @Override
-    public void onResponse(Call<ResponseData<Participant[]>> call, Response<ResponseData<Participant[]>> response) {
-        super.onResponse(call, response);
-
-        if (response.isSuccessful()) {
-            ArrayList<Participant> data = new ArrayList<Participant>(Arrays.asList(response.body().getData()));
-
-            mAdapter.addItems(data, switch_value);
-        }
-    }
-
-    @Override
-    public void onFailure(Call<ResponseData<Participant[]>> call, Throwable t) {
-        super.onFailure(call, t);
     }
 }

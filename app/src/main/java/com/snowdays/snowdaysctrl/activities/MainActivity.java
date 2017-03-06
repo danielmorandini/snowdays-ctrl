@@ -1,9 +1,12 @@
 package com.snowdays.snowdaysctrl.activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -62,13 +65,10 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                // Remove saved token and userId
-                KeyStore.clearAll(this);
 
-                // Return to the base activity
-                Intent intent = new Intent(this, StartActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                AlertDialog dialog = (AlertDialog) onCreateDialog();
+                dialog.show();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -95,6 +95,27 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
     @Override
     public void onFailure(Call<ResponseData<MainCard[]>> call, Throwable t) {
         super.onFailure(call, t);
+    }
+
+    public Dialog onCreateDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage(R.string.logout_alert_title)
+                .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Remove saved token and userId
+                        KeyStore.clearAll(MainActivity.this);
+
+                        // Return to the base activity
+                        Intent intent = new Intent(MainActivity.this, StartActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        return builder.create();
     }
 }
 
