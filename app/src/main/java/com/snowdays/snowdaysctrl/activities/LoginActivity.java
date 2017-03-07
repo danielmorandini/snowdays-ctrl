@@ -1,7 +1,6 @@
 package com.snowdays.snowdaysctrl.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -14,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
+import com.snowdays.snowdaysctrl.activities.base.BaseActivity;
 import com.snowdays.snowdaysctrl.models.APIErrorResponse;
 import com.snowdays.snowdaysctrl.models.LoginResponse;
 import com.snowdays.snowdaysctrl.models.ResponseData;

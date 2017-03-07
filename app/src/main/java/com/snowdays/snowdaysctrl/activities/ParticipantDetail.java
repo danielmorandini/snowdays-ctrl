@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
+import com.snowdays.snowdaysctrl.activities.base.BaseActivity;
 import com.snowdays.snowdaysctrl.models.Participant;
 
 

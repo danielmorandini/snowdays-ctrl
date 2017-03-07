@@ -4,13 +4,7 @@ import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -18,10 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.snowdays.snowdaysctrl.R;
+import com.snowdays.snowdaysctrl.activities.base.BaseNetworkActivity;
 import com.snowdays.snowdaysctrl.adapters.ParticipantsListAdapter;
 import com.snowdays.snowdaysctrl.models.Participant;
 import com.snowdays.snowdaysctrl.models.ResponseData;
@@ -57,16 +50,6 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
         title = getIntent().getStringExtra("myTitle");
 
         loadToolbar(title);
-
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog dialog = (AlertDialog) onCreateCommentDialog();
-                dialog.show();
-            }
-        });*/
 
         // Adapter
         // specify an adapter

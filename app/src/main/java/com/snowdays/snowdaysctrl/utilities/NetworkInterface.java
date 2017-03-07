@@ -41,6 +41,7 @@ public interface NetworkInterface {
             @Field("message") String message
     );
 
+    @FormUrlEncoded
     @Headers("Content-Type: application/x-www-form-urlencoded")
     @PUT("/api/v1/participants/{id}")
     Call<ResponseData<String>> updateParticipant(
@@ -59,6 +60,12 @@ public interface NetworkInterface {
             @HeaderMap Map<String, String> headers,
             @Query("fields") String fields,
             @Query("value") Boolean value
+    );
+
+    @GET("/api/v1/participants/{id}")
+    Call<ResponseData<Participant>> getParticipant(
+            @HeaderMap Map<String, String> headers,
+            @Path("id") String id
     );
 
     @GET("/api/v1/cards?events=all")

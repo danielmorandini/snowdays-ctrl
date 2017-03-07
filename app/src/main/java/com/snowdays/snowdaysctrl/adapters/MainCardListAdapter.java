@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
-import com.snowdays.snowdaysctrl.activities.BaseActivity;
+import com.snowdays.snowdaysctrl.activities.base.BaseActivity;
 import com.snowdays.snowdaysctrl.activities.NFCReadActivity;
 import com.snowdays.snowdaysctrl.models.MainCard;
 

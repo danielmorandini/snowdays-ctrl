@@ -1,4 +1,4 @@
-package com.snowdays.snowdaysctrl.activities;
+package com.snowdays.snowdaysctrl.activities.base;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -8,19 +8,18 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.snowdays.snowdaysctrl.R;
+import com.snowdays.snowdaysctrl.activities.base.BaseActivity;
 import com.snowdays.snowdaysctrl.models.APIErrorResponse;
 import com.snowdays.snowdaysctrl.models.ResponseData;
 import com.snowdays.snowdaysctrl.utilities.ErrorUtils;
 import com.snowdays.snowdaysctrl.utilities.NetworkService;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 

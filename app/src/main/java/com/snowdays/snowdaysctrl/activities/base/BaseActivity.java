@@ -1,4 +1,4 @@
-package com.snowdays.snowdaysctrl.activities;
+package com.snowdays.snowdaysctrl.activities.base;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;

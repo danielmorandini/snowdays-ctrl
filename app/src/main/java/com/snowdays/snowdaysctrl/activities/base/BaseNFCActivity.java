@@ -1,4 +1,4 @@
-package com.snowdays.snowdaysctrl.activities;
+package com.snowdays.snowdaysctrl.activities.base;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -12,8 +12,9 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+
+import com.snowdays.snowdaysctrl.activities.base.BaseActivity;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
