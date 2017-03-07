@@ -32,6 +32,11 @@ public interface NetworkInterface {
             @Field("password") String password
     );
 
+    @POST("/api/v1/reports")
+    Call<ResponseData<String>> sendReport(
+            @Field("message") String message
+    );
+
     @PUT("/api/v1/participants/{id}")
     Call<ResponseData<String>> updateParticipant(
             @HeaderMap Map<String, String> headers,
