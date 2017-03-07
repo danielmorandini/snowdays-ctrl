@@ -5,17 +5,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.PermissionChecker;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.models.Participant;
-
-import java.security.Permission;
-import java.security.Permissions;
 
 
 /**
@@ -26,7 +23,11 @@ public class ParticipantDetail extends BaseActivity {
 
     public static final String PARTICIPANT = "Participant";
 
-    Participant participant;
+    public static Participant getParticipant() {
+        return participant;
+    }
+
+    private static Participant participant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,6 @@ public class ParticipantDetail extends BaseActivity {
         loadToolbar(getString(R.string.app_name));
 
         participant = getIntent().getParcelableExtra(PARTICIPANT);
-        //participantInfo = getIntent().getParcelableExtra(PARTICIPANT);
 
         initUI();
     }
@@ -83,5 +83,17 @@ public class ParticipantDetail extends BaseActivity {
 
         //TODO: add dorm
         dorm.setText(participant.getDorm());
+
+        // Floating button setup
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.nfc_write_button);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Open NFCActivity with writing purposes
+                Intent intent = new Intent(ParticipantDetail.this, NFCWriteActivity.class);
+                intent.putExtra(NFCWriteActivity.EXTRA_PARTICIPANT, ParticipantDetail.getParticipant());
+                startActivity(intent);
+            }
+        });
     }
 }

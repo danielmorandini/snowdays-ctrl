@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.snowdays.snowdaysctrl.R;
@@ -32,6 +33,7 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
     public final static String EXTRA_CARD = "com.snowdays.snowdaysctrl.EXTRA_CARD";
     private MainCard mCard;
     private FragmentStack mStack;
+
     // UI
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
         mCard = (MainCard) getIntent().getSerializableExtra(EXTRA_CARD);
 
         loadToolbar(mCard.getName());
+
+        TextView subtitleV = (TextView) findViewById(R.id.subtitle);
+        subtitleV.setText(mCard.getSubtitle());
 
         // Stack that will host the fragments that handle the visual responses of this view
         mStack = new FragmentStack();
