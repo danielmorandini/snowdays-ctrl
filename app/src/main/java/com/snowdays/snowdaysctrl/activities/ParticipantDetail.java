@@ -46,7 +46,7 @@ public class ParticipantDetail extends BaseActivity {
         TextView name = (TextView) findViewById(R.id.participant_name);
         TextView surname = (TextView) findViewById(R.id.participant_surname);
         TextView university = (TextView) findViewById(R.id.participant_university);
-        TextView gender = (TextView) findViewById(R.id.participant_gender);
+        TextView gender = (TextView) findViewById(R.id.participant_id);
 
         // Contact
         TextView mobile = (TextView) findViewById(R.id.participant_phone);
@@ -75,7 +75,7 @@ public class ParticipantDetail extends BaseActivity {
         name.setText(participant.getFirstName());
         surname.setText(participant.getLastName());
         university.setText(participant.getUniversity());
-        gender.setText(participant.getGender());
+        gender.setText(participant.getId());
 
         mobile.setText(participant.getPhone());
         email.setText(participant.getEmail());

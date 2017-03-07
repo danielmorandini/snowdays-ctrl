@@ -4,7 +4,12 @@ import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -12,6 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.adapters.ParticipantsListAdapter;
@@ -34,6 +41,7 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
     private static String[] dorms = {"Univercity", "Benedikt", "Marianum", "Carducci"};
     private String actionKey;
     private String title;
+    private static SearchView searchView = null;
     private Boolean switch_value = false; // Value that decides if to fetch users that have already done this activity of not
 
     private static ArrayList<Participant> dataSet;
@@ -49,12 +57,55 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
 
         loadToolbar(title);
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog dialog = (AlertDialog) onCreateCommentDialog();
+                dialog.show();
+            }
+        });
+
         // Adapter
         // specify an adapter
         mAdapter = new ParticipantsListAdapter(this, new ArrayList<Participant>());
         mRecyclerView.setAdapter(mAdapter);
 
         loadData();
+    }
+
+    public Dialog onCreateCommentDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ParticipantListActivity.this);
+
+        builder.setTitle("Comments");
+
+        final EditText input = new EditText(ParticipantListActivity.this);
+        input.setLines(4);
+        input.setPadding(70,0,70,0);
+        input.setBackgroundColor(Color.TRANSPARENT);
+        input.setHint("Insert your comment here");
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        builder.setView(input);
+
+        builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        return builder.create();
     }
 
     public void loadData() {
@@ -71,7 +122,6 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchManager searchManager = (SearchManager) ParticipantListActivity.this.getSystemService(Context.SEARCH_SERVICE);
 
-        SearchView searchView = null;
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
         }
@@ -163,11 +213,13 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
                 AlertDialog dialog = (AlertDialog) onCreateDialog();
                 dialog.show();
 
+                return true;
             case R.id.action_reload:
                 loadData();
                 dataSet = mAdapter.getmDataset();
                 mAdapter.addItems(dataSet, switch_value);
 
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -200,7 +252,6 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
         builder.setTitle("Filter by dorm")
                 .setItems(dorms, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
                         if(newDataSet == null) {
                             newDataSet = new ArrayList<Participant>();
                         } else {
