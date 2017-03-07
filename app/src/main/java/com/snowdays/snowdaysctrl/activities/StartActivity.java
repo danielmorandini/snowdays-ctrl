@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.utilities.KeyStore;
 
 public class StartActivity extends AppCompatActivity {

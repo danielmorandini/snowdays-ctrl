@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
+import com.snowdays.snowdaysctrl.activities.base.BaseNFCActivity;
 import com.snowdays.snowdaysctrl.fragments.NFCProgressFragment;
 import com.snowdays.snowdaysctrl.models.APIErrorResponse;
 import com.snowdays.snowdaysctrl.models.ResponseData;
