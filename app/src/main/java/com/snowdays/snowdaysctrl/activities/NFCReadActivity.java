@@ -13,14 +13,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.fragments.NFCProgressFragment;
 import com.snowdays.snowdaysctrl.models.MainCard;
+import com.snowdays.snowdaysctrl.models.ResponseData;
 import com.snowdays.snowdaysctrl.utilities.NetworkService;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 
 public final class NFCReadActivity extends NFCActivity {
@@ -29,6 +34,7 @@ public final class NFCReadActivity extends NFCActivity {
     public final static String EXTRA_CARD = "com.snowdays.snowdaysctrl.EXTRA_CARD";
     private MainCard mCard;
     public static int placesOnBus = 0;
+    public TextView view;
 
     // UI
     @Override
@@ -41,12 +47,13 @@ public final class NFCReadActivity extends NFCActivity {
         loadToolbar(mCard.getName());
         subtitleTV.setText(mCard.getSubtitle());
 
+        view = (TextView) findViewById(R.id.number_of_places);
 
         showDialog();
     }
 
     public void showDialog() {
-        if(mCard.getType().equals("transportation") && placesOnBus == 0) {
+        if(mCard.getType().equals("transportation")) {
             AlertDialog dialog = (AlertDialog) createDialog();
             dialog.show();
         }
@@ -59,8 +66,8 @@ public final class NFCReadActivity extends NFCActivity {
 
 
         final NumberPicker np = new NumberPicker(this);
-        np.setMaxValue(100); // max value 100
-        np.setMinValue(10);   // min value 0
+        np.setMaxValue(70); // max value 100
+        np.setMinValue(20);   // min value 0
         np.setWrapSelectorWheel(false);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -74,7 +81,8 @@ public final class NFCReadActivity extends NFCActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         placesOnBus = np.getValue();
-                        setMessage(String.valueOf(placesOnBus));
+                        view.setVisibility(View.VISIBLE);
+                        view.setText(String.valueOf(placesOnBus));
                     }
                 });
 
@@ -141,6 +149,18 @@ public final class NFCReadActivity extends NFCActivity {
         mCall.enqueue(this);
     }
 
-    
+    public void onResponse(Call<ResponseData<String>> call, Response<ResponseData<String>> response) {
+        super.onResponse(call, response);
+
+        if (response.isSuccessful()) {
+            placesOnBus--;
+            view.setVisibility(View.VISIBLE);
+            view.setText(String.valueOf(placesOnBus));
+
+            if(placesOnBus == 0) {
+                showDialog();
+            }
+        }
+    }
 
 }

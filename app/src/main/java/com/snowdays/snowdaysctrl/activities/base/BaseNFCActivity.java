@@ -101,6 +101,8 @@ public abstract class BaseNFCActivity extends BaseActivity {
             NdefMessage message = ndef.getNdefMessage();
 
             //get the actual message
+            if (message.getRecords() == null) return null;
+            
             String value = new String(message.getRecords()[0].getPayload(), Charset.forName("US-ASCII"));
             if (value != null && value.length() > 2) {
                 return value.substring(3); // remove language info

@@ -25,6 +25,15 @@
             android:layout_gravity="center"
             android:text="Scan NFC tag!"/>
 
+        <TextView
+            android:id="@+id/number_of_places"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:text="10"/>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
