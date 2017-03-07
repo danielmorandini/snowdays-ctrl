@@ -1,17 +1,26 @@
 package com.snowdays.snowdaysctrl.activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.models.APIErrorResponse;
 import com.snowdays.snowdaysctrl.models.ResponseData;
 import com.snowdays.snowdaysctrl.utilities.ErrorUtils;
+import com.snowdays.snowdaysctrl.utilities.NetworkService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -48,6 +57,78 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog dialog = (AlertDialog) onCreateCommentDialog();
+                dialog.show();
+            }
+        });
+    }
+
+    public Dialog onCreateCommentDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Comments");
+
+        final EditText input = new EditText(this);
+        input.setLines(4);
+        input.setPadding(70,0,70,0);
+        input.setBackgroundColor(Color.TRANSPARENT);
+        input.setHint("Insert your message here");
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        builder.setView(input);
+
+        builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sendReport(String.valueOf(input.getText()));
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        return builder.create();
+    }
+
+    public void sendReport(String message) {
+        Call<ResponseData<String>> reportCall = NetworkService.getInstance().sendReport(getHeaders(), message);
+        reportCall.enqueue(new Callback<ResponseData<String>>() {
+            @Override
+            public void onResponse(Call<ResponseData<String>> call, Response<ResponseData<String>> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<String> data = new ArrayList<String>(Arrays.asList(response.body().getData()));
+
+                    showEmptyView(data.isEmpty());
+                    setMessage("Thanks for your report!");
+
+                } else {
+                    APIErrorResponse error = ErrorUtils.parseError(response);
+                    if (error.message() != null && error.message().length() > 0) {
+                        setMessage(error.message());
+                    } else {
+                        setMessage("Error while reading server's response");
+                    }
+                    showEmptyView(mRecyclerView.getAdapter().getItemCount() == 0);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData<String>> call, Throwable t) {
+
+            }
+        });
     }
 
     public void loadData(Call<ResponseData<T>> call) {
@@ -59,6 +140,7 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
         mCall.enqueue(this);
     }
 
+    // Network tasks
     @Override
     public void onResponse(Call<ResponseData<T>> call, Response<ResponseData<T>> response) {
         mSpinner.setVisibility(ProgressBar.GONE);
@@ -96,4 +178,5 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
             mRecyclerView.setVisibility(View.VISIBLE);
         }
     }
+
 }

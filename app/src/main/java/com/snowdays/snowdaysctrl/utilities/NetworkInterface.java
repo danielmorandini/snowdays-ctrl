@@ -35,6 +35,12 @@ public interface NetworkInterface {
     );
 
     @FormUrlEncoded
+    @POST("/api/v1/reports")
+    Call<ResponseData<String>> sendReport(
+            @HeaderMap Map<String, String> headers,
+            @Field("message") String message
+    );
+
     @Headers("Content-Type: application/x-www-form-urlencoded")
     @PUT("/api/v1/participants/{id}")
     Call<ResponseData<String>> updateParticipant(

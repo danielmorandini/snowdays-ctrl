@@ -7,13 +7,17 @@
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="always"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        android:title="Search"/>
+        android:title="Search" />
     <item
         android:id="@+id/action_switch_list"
         android:icon="@drawable/ic_switch_list"
-        android:title="switch list" />
+        android:title="Switch list"/>
     <item
         android:id="@+id/action_filter"
-        android:title="filter" />
+        android:title="Filter" />
+
+    <item
+        android:id="@+id/action_reload"
+        android:title="Reload" />
 
 </menu>
