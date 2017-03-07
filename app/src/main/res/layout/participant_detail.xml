@@ -90,13 +90,13 @@
         </View>
 
         <TextView
-            android:id="@+id/participant_gender"
+            android:id="@+id/participant_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/detail_left_margin_normal"
             android:layout_marginTop="@dimen/detail_top_margin_large"
             android:gravity="left"
-            android:text="gender"
+            android:text="id"
             android:textSize="@dimen/detail_content_section_size"/>
 
 

@@ -38,6 +38,7 @@ public class Participant implements Parcelable {
         email = in.readString();
         firstName = in.readString();
         lastName = in.readString();
+        university = in.readString();
         dorm = in.readString();
         phone = in.readString();
     }
@@ -79,7 +80,7 @@ public class Participant implements Parcelable {
     }
 
     public String getDorm() { return dorm; }
-
+    
     public Boolean getVolleyPlayer() {
         return isVolleyPlayer;
     }
@@ -121,6 +122,7 @@ public class Participant implements Parcelable {
         dest.writeString(email);
         dest.writeString(firstName);
         dest.writeString(lastName);
+        dest.writeString(university);
         dest.writeString(dorm);
         dest.writeString(phone);
     }
