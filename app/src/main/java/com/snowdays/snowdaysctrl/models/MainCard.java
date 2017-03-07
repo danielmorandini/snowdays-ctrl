@@ -62,7 +62,7 @@ public class MainCard implements Serializable {
 
         int icon;
         switch (getType()) {
-            case "transport":
+            case "transportation":
                 icon = R.drawable.ic_003_school_bus;
                 break;
             case "meal":

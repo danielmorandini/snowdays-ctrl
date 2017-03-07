@@ -34,6 +34,9 @@
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.ParticipantListActivity" />
         <activity android:name=".activities.ParticipantDetail" />
+        <activity
+            android:name=".activities.NFCWriteActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

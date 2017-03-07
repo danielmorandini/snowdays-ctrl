@@ -11,9 +11,11 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -39,11 +41,12 @@ public interface NetworkInterface {
             @Field("message") String message
     );
 
+    @Headers("Content-Type: application/x-www-form-urlencoded")
     @PUT("/api/v1/participants/{id}")
     Call<ResponseData<String>> updateParticipant(
             @HeaderMap Map<String, String> headers,
             @Path("id") String participantId,
-            @Body HashMap<String, HashMap<String, Boolean>> body
+            @FieldMap Map<String, Boolean> fields
     );
 
     @GET("/api/v1/participants?fields=all")
@@ -58,7 +61,7 @@ public interface NetworkInterface {
             @Query("value") Boolean value
     );
 
-    @GET("/api/v1/cards")
+    @GET("/api/v1/cards?events=all")
     Call<ResponseData<MainCard[]>> getActivities(
             @HeaderMap Map<String, String> headers
     );
