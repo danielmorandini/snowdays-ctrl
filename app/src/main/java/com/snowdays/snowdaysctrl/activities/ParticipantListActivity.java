@@ -240,16 +240,16 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
                                     }
                                 } else {
                                     setMessage("current.getDorm() returns null");
+                                    mAdapter.resetmDataset();
+                                    mAdapter.addItems(dataSet, switch_value);
                                     break;
                                 }
 
                             }
 
-                            mAdapter.resetmDataset();
+
                             if (!newDataSet.isEmpty()) {
                                 mAdapter.addItems(newDataSet, switch_value);
-                            } else {
-                                mAdapter.addItems(dataSet, switch_value);
                             }
                         }
                     }

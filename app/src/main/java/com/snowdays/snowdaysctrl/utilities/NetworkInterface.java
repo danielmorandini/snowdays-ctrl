@@ -41,6 +41,7 @@ public interface NetworkInterface {
             @Field("message") String message
     );
 
+    @FormUrlEncoded
     @Headers("Content-Type: application/x-www-form-urlencoded")
     @PUT("/api/v1/participants/{id}")
     Call<ResponseData<String>> updateParticipant(

@@ -1,11 +1,18 @@
 package com.snowdays.snowdaysctrl.activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.fragments.NFCProgressFragment;
@@ -21,6 +28,7 @@ public final class NFCReadActivity extends NFCActivity {
     // Global
     public final static String EXTRA_CARD = "com.snowdays.snowdaysctrl.EXTRA_CARD";
     private MainCard mCard;
+    public static int placesOnBus = 0;
 
     // UI
     @Override
@@ -32,6 +40,60 @@ public final class NFCReadActivity extends NFCActivity {
 
         loadToolbar(mCard.getName());
         subtitleTV.setText(mCard.getSubtitle());
+
+
+        showDialog();
+    }
+
+    public void showDialog() {
+        if(mCard.getType().equals("transportation") && placesOnBus == 0) {
+            AlertDialog dialog = (AlertDialog) createDialog();
+            dialog.show();
+        }
+    }
+
+    public Dialog createDialog() {
+        AlertDialog.Builder d = new AlertDialog.Builder(NFCReadActivity.this);
+        d.setTitle("Transportation");
+        d.setMessage("Please, select the number of places on the bus");
+
+
+        final NumberPicker np = new NumberPicker(this);
+        np.setMaxValue(100); // max value 100
+        np.setMinValue(10);   // min value 0
+        np.setWrapSelectorWheel(false);
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        np.setLayoutParams(lp);
+        d.setView(np);
+
+
+        d.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        placesOnBus = np.getValue();
+                        setMessage(String.valueOf(placesOnBus));
+                    }
+                });
+
+
+        d.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+            }
+        });
+
+        return d.create();
     }
 
     @Override
@@ -61,6 +123,7 @@ public final class NFCReadActivity extends NFCActivity {
     public void responseData(String data) {
         super.responseData(data);
         updateParticipant(data);
+
     }
 
     //HTTP Requests
@@ -77,4 +140,7 @@ public final class NFCReadActivity extends NFCActivity {
         mCall = NetworkService.getInstance().updateParticipant(getHeaders(), participantId, body);
         mCall.enqueue(this);
     }
+
+    
+
 }
