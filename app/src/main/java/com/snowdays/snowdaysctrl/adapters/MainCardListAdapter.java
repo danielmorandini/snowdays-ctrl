@@ -3,8 +3,6 @@ package com.snowdays.snowdaysctrl.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Icon;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +12,8 @@ import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.activities.BaseActivity;
-import com.snowdays.snowdaysctrl.activities.NFCActivity;
-import com.snowdays.snowdaysctrl.activities.ParticipantDetail;
+import com.snowdays.snowdaysctrl.activities.NFCReadActivity;
 import com.snowdays.snowdaysctrl.models.MainCard;
-import com.snowdays.snowdaysctrl.models.Participant;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -96,8 +92,8 @@ public class MainCardListAdapter extends RecyclerView.Adapter<MainCardListAdapte
         }
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(c, NFCActivity.class);
-            intent.putExtra(NFCActivity.EXTRA_CARD, card);
+            Intent intent = new Intent(c, NFCReadActivity.class);
+            intent.putExtra(NFCReadActivity.EXTRA_CARD, card);
             c.startActivity(intent);
         }
     }

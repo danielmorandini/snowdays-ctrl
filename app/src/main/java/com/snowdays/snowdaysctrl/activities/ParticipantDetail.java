@@ -89,7 +89,7 @@ public class ParticipantDetail extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Open NFCActivity with writing purposes
+                // Open NFCReadActivity with writing purposes
                 Intent intent = new Intent(ParticipantDetail.this, NFCWriteActivity.class);
                 intent.putExtra(NFCWriteActivity.EXTRA_PARTICIPANT, ParticipantDetail.getParticipant());
                 startActivity(intent);

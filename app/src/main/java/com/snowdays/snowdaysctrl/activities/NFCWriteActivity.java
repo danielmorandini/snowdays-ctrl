@@ -5,17 +5,20 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
+import com.snowdays.snowdaysctrl.fragments.NFCProgressFragment;
 import com.snowdays.snowdaysctrl.models.Participant;
+import com.snowdays.snowdaysctrl.utilities.NetworkService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by danielmorandini on 07/03/2017.
  */
 
-public class NFCWriteActivity extends BaseNFCActivity   {
+public final class NFCWriteActivity extends NFCActivity {
 
     public final static String EXTRA_PARTICIPANT = "com.snowdays.snowdaysctrl.EXTRA_PARTICIPANT";
     private Participant participant;
@@ -24,17 +27,16 @@ public class NFCWriteActivity extends BaseNFCActivity   {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nfc);
 
         // Retrieve card info from intent
         participant = (Participant) getIntent().getParcelableExtra(EXTRA_PARTICIPANT);
 
         // UI
-        loadToolbar(participant.getFirstName());
-        TextView subtitleV = (TextView) findViewById(R.id.subtitle);
-        subtitleV.setText("This will write " + participant.getLastName() + "'s ID into the TAG");
+        loadToolbar(participant.getFirstName() + " " + participant.getLastName());
+        subtitleTV.setText("This will write " + participant.getLastName() + "'s ID into the TAG");
     }
-    // NFC
+
+    //NFC Tag discovery
 
     public void onNewIntent(Intent intent) {
         readingStarted();
@@ -52,22 +54,23 @@ public class NFCWriteActivity extends BaseNFCActivity   {
 
     @Override
     public void responseData(String data) {
+        super.responseData(data);
         setMessage(data);
+        updateParticipant(data);
     }
 
-    @Override
-    public void responseError(Exception e) {
-        setMessage("Error while reading the card");
-        Log.e("NFCActivity", "Error reading the card", e);
-    }
+    //HTTP Requests
 
-    @Override
-    public void responseError() {
-        setMessage("Error while writing in the card");
-    }
+    public void updateParticipant(String participantId) {
+        if (mCall != null) mCall.cancel();
 
-    @Override
-    public void readingStarted() {
+        NFCProgressFragment item = createFragment("HTTP request");
+        mStack.push(item);
 
+        Map<String, Boolean> body = new HashMap<>();
+        body.put("checkedIn", true);
+
+        mCall = NetworkService.getInstance().updateParticipant(getHeaders(), participant.getId(), body);
+        mCall.enqueue(this);
     }
 }
