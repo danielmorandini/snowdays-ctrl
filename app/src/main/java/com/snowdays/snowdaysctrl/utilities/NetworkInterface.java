@@ -32,8 +32,10 @@ public interface NetworkInterface {
             @Field("password") String password
     );
 
+    @FormUrlEncoded
     @POST("/api/v1/reports")
     Call<ResponseData<String>> sendReport(
+            @HeaderMap Map<String, String> headers,
             @Field("message") String message
     );
 

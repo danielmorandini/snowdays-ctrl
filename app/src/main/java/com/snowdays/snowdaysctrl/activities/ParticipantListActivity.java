@@ -58,18 +58,15 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
 
         loadToolbar(title);
 
-        ActionBar ac = getSupportActionBar();
 
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog dialog = (AlertDialog) onCreateCommentDialog();
                 dialog.show();
             }
-        });
+        });*/
 
         // Adapter
         // specify an adapter
@@ -79,39 +76,6 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
         loadData();
     }
 
-    public Dialog onCreateCommentDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ParticipantListActivity.this);
-
-        builder.setTitle("Comments");
-
-        final EditText input = new EditText(ParticipantListActivity.this);
-        input.setLines(4);
-        input.setPadding(70,0,70,0);
-        input.setBackgroundColor(Color.TRANSPARENT);
-        input.setHint("Insert your comment here");
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(lp);
-        builder.setView(input);
-
-        builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        return builder.create();
-    }
 
     public void loadData() {
         mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), actionKey, switch_value);

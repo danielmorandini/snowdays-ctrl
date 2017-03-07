@@ -43,7 +43,7 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
         mAdapter = new MainCardListAdapter(new ArrayList<MainCard>(), this);
         mRecyclerView.setAdapter(mAdapter);
 
-        // Floating button actions
+        /*// Floating button actions
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,13 +51,13 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
                 AlertDialog dialog = (AlertDialog) onCreateCommentDialog();
                 dialog.show();
             }
-        });
+        });*/
 
         // load data
         loadData();
     }
 
-    public Dialog onCreateCommentDialog() {
+    /*public Dialog onCreateCommentDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
         builder.setTitle("Comments");
@@ -89,7 +89,7 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
         });
 
         return builder.create();
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
