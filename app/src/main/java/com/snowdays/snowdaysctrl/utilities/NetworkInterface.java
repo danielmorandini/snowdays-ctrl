@@ -51,7 +51,7 @@ public interface NetworkInterface {
             @Query("value") Boolean value
     );
 
-    @GET("/api/v1/cards")
+    @GET("/api/v1/cards?events=all")
     Call<ResponseData<MainCard[]>> getActivities(
             @HeaderMap Map<String, String> headers
     );
