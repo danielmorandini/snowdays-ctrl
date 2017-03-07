@@ -190,6 +190,9 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
             ArrayList<Participant> data = new ArrayList<Participant>(Arrays.asList(response.body().getData()));
 
             mAdapter.addItems(data, switch_value);
+
+            entriesTextView.setVisibility(View.VISIBLE);
+            entriesTextView.setText("Entries " + mAdapter.getItemCount());
         }
     }
 

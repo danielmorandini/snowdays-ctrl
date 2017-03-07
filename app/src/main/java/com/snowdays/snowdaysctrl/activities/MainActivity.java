@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.snowdays.snowdaysctrl.activities.base.BaseNetworkActivity;
@@ -129,8 +130,10 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
         super.onResponse(call, response);
         if (response.isSuccessful()) {
             ArrayList<MainCard> data = new ArrayList<MainCard>(Arrays.asList(response.body().getData()));
-
             mAdapter.addItems(data);
+
+            entriesTextView.setVisibility(View.VISIBLE);
+            entriesTextView.setText("Entries " + mAdapter.getItemCount());
         }
     }
 

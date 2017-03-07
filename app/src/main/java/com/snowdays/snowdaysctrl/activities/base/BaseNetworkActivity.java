@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.activities.base.BaseActivity;
@@ -37,6 +38,7 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
     public RecyclerView.LayoutManager mLayoutManager;
     public ProgressBar mSpinner;
     public View mEmptyView;
+    public TextView entriesTextView;
 
     public Call<ResponseData<T>> mCall;
 
@@ -65,6 +67,8 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
                 dialog.show();
             }
         });
+
+        entriesTextView = (TextView) findViewById(R.id.entries_text_view);
     }
 
     public Dialog onCreateCommentDialog() {
@@ -143,6 +147,7 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
     @Override
     public void onResponse(Call<ResponseData<T>> call, Response<ResponseData<T>> response) {
         mSpinner.setVisibility(ProgressBar.GONE);
+        entriesTextView.setVisibility(View.GONE);
 
         if (response.isSuccessful()) {
             ArrayList<T> data = new ArrayList<T>(Arrays.asList(response.body().getData()));
