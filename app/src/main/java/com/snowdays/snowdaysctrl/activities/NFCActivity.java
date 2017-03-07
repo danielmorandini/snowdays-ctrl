@@ -20,11 +20,13 @@ import com.snowdays.snowdaysctrl.utilities.ErrorUtils;
 import com.snowdays.snowdaysctrl.utilities.NetworkService;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.FieldMap;
 
 public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseData<String>> {
 
@@ -117,9 +119,8 @@ public class NFCActivity extends BaseNFCActivity  implements Callback<ResponseDa
         NFCProgressFragment item = createFragment("HTTP request");
         mStack.push(item);
 
-        HashMap<String, HashMap<String, Boolean>> body = new HashMap<>();
-        HashMap<String, Boolean> innerBody = new HashMap<>();
-        innerBody.put(mCard.getCheckAction(), true);
+        Map<String, Boolean> body = new HashMap<>();
+        body.put(mCard.getCheckAction(), true);
 
         mCall = NetworkService.getInstance().updateParticipant(getHeaders(), participantId, body);
         mCall.enqueue(this);
