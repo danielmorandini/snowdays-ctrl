@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -56,6 +57,10 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
         title = getIntent().getStringExtra("myTitle");
 
         loadToolbar(title);
+
+        ActionBar ac = getSupportActionBar();
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
