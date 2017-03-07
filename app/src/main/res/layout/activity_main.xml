@@ -10,6 +10,18 @@
 
     <include layout="@layout/toolbar"></include>
 
+    <TextView
+        android:id="@+id/entries_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Entries 223"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="12dp"
+        android:visibility="gone"/>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
