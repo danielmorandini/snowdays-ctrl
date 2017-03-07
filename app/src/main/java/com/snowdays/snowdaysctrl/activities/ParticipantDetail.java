@@ -77,11 +77,9 @@ public class ParticipantDetail extends BaseActivity {
         university.setText(participant.getUniversity());
         gender.setText(participant.getGender());
 
-        //TODO: add phone
         mobile.setText(participant.getPhone());
         email.setText(participant.getEmail());
 
-        //TODO: add dorm
         dorm.setText(participant.getDorm());
     }
 }

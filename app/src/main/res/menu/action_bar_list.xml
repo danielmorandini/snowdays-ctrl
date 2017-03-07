@@ -16,4 +16,8 @@
         android:id="@+id/action_filter"
         android:title="filter" />
 
+    <item
+        android:id="@+id/action_reload"
+        android:title="reload" />
+
 </menu>

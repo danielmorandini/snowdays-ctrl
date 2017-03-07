@@ -163,6 +163,11 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
                 AlertDialog dialog = (AlertDialog) onCreateDialog();
                 dialog.show();
 
+            case R.id.action_reload:
+                loadData();
+                dataSet = mAdapter.getmDataset();
+                mAdapter.addItems(dataSet, switch_value);
+
 
             default:
                 return super.onOptionsItemSelected(item);
