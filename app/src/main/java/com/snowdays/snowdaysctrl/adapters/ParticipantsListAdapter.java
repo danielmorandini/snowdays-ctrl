@@ -54,6 +54,7 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
         holder.mIconView.setImageResource(drawableIconID);
 
         holder.mTextView.setText(element.getFirstName() + " " + element.getLastName());
+        //TODO: modify getID with getDorm
         holder.mTextViewDorm.setText(element.getId());
 
         ParticipantListener participantListener = new ParticipantListener(element, c);
