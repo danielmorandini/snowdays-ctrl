@@ -19,6 +19,7 @@ import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.activities.base.BaseNetworkActivity;
 import com.snowdays.snowdaysctrl.adapters.ParticipantsListAdapter;
 import com.snowdays.snowdaysctrl.models.Participant;
+import com.snowdays.snowdaysctrl.models.ParticipantShort;
 import com.snowdays.snowdaysctrl.models.ResponseData;
 import com.snowdays.snowdaysctrl.utilities.NetworkService;
 
@@ -29,18 +30,18 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 
-public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> {
+public class ParticipantListActivity extends BaseNetworkActivity<ParticipantShort[]> {
     public static final String ARG_ACTION_KEY = "ARG_ACTION_KEY";
 
 
-    private static ArrayList<Participant> newDataSet;
+    private static ArrayList<ParticipantShort> newDataSet;
     private static String[] dorms = {"Univercity", "Benedikt", "Marianum", "Carducci"};
     private String actionKey;
     private String title;
     private static SearchView searchView = null;
     private Boolean switch_value = false; // Value that decides if to fetch users that have already done this activity of not
 
-    private static ArrayList<Participant> dataSet;
+    private static ArrayList<ParticipantShort> dataSet;
     private ParticipantsListAdapter mAdapter;
 
     @Override
@@ -55,7 +56,7 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
 
         // Adapter
         // specify an adapter
-        mAdapter = new ParticipantsListAdapter(this, new ArrayList<Participant>());
+        mAdapter = new ParticipantsListAdapter(this, new ArrayList<ParticipantShort>());
         mRecyclerView.setAdapter(mAdapter);
 
         loadData();
@@ -108,11 +109,11 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
             }
 
             private void updateDataset(String query) {
-                newDataSet = new ArrayList<Participant>();
+                newDataSet = new ArrayList<ParticipantShort>();
 
                 for(int i = 0; i < dataSet.size(); i++) {
 
-                    Participant current = dataSet.get(i);
+                    ParticipantShort current = dataSet.get(i);
                     String name = current.getFirstName().toLowerCase();
                     String last = current.getLastName().toLowerCase();
                     query = query.toLowerCase();
@@ -190,11 +191,11 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
     // Update
 
     @Override
-    public void onResponse(Call<ResponseData<Participant[]>> call, Response<ResponseData<Participant[]>> response) {
+    public void onResponse(Call<ResponseData<ParticipantShort[]>> call, Response<ResponseData<ParticipantShort[]>> response) {
         super.onResponse(call, response);
 
         if (response.isSuccessful()) {
-            ArrayList<Participant> data = new ArrayList<Participant>(Arrays.asList(response.body().getData()));
+            ArrayList<ParticipantShort> data = new ArrayList<ParticipantShort>(Arrays.asList(response.body().getData()));
 
             mAdapter.addItems(data, switch_value);
 
@@ -204,7 +205,7 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
     }
 
     @Override
-    public void onFailure(Call<ResponseData<Participant[]>> call, Throwable t) {
+    public void onFailure(Call<ResponseData<ParticipantShort[]>> call, Throwable t) {
         super.onFailure(call, t);
     }
 
@@ -215,7 +216,7 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
                 .setItems(dorms, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if(newDataSet == null) {
-                            newDataSet = new ArrayList<Participant>();
+                            newDataSet = new ArrayList<ParticipantShort>();
                         } else {
                             for(int i = 0; i < newDataSet.size(); i++) {
                                 newDataSet.remove(i);
@@ -225,7 +226,7 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
                         if(!dataSet.isEmpty()) {
                             for (int i = 0; i < dataSet.size(); i++) {
 
-                                Participant current = dataSet.get(i);
+                                ParticipantShort current = dataSet.get(i);
 
                                 if (current.getDorm() != null) {
                                     if (current.getDorm().equals(dorms[which])) {

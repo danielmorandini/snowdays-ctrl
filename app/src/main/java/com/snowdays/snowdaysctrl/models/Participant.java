@@ -1,16 +1,17 @@
 package com.snowdays.snowdaysctrl.models;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 
 /**
  * Created by danielmorandini on 11/01/2017.
  */
 
-public class Participant implements Parcelable {
+public class Participant implements Serializable {
 
     @SerializedName("_id")
     private String id;
@@ -42,18 +43,6 @@ public class Participant implements Parcelable {
         dorm = in.readString();
         phone = in.readString();
     }
-
-    public static final Creator<Participant> CREATOR = new Creator<Participant>() {
-        @Override
-        public Participant createFromParcel(Parcel in) {
-            return new Participant(in);
-        }
-
-        @Override
-        public Participant[] newArray(int size) {
-            return new Participant[size];
-        }
-    };
 
     public String getId() {
         return id;
@@ -107,23 +96,5 @@ public class Participant implements Parcelable {
 
     public String getPhone() {
         return phone;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(token);
-        dest.writeString(owner);
-        dest.writeString(email);
-        dest.writeString(firstName);
-        dest.writeString(lastName);
-        dest.writeString(university);
-        dest.writeString(dorm);
-        dest.writeString(phone);
     }
 }

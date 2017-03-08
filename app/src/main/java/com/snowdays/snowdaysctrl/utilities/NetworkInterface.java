@@ -3,6 +3,7 @@ package com.snowdays.snowdaysctrl.utilities;
 import com.snowdays.snowdaysctrl.models.LoginResponse;
 import com.snowdays.snowdaysctrl.models.MainCard;
 import com.snowdays.snowdaysctrl.models.Participant;
+import com.snowdays.snowdaysctrl.models.ParticipantShort;
 import com.snowdays.snowdaysctrl.models.ResponseData;
 
 import java.util.HashMap;
@@ -56,7 +57,7 @@ public interface NetworkInterface {
     );
 
     @GET("/api/v1/participants")
-    Call<ResponseData<Participant[]>> getParticipantsWithFields(
+    Call<ResponseData<ParticipantShort[]>> getParticipantsWithFields(
             @HeaderMap Map<String, String> headers,
             @Query("fields") String fields,
             @Query("value") Boolean value

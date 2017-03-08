@@ -13,6 +13,7 @@ import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.activities.ParticipantDetail;
 import com.snowdays.snowdaysctrl.activities.ParticipantListActivity;
 import com.snowdays.snowdaysctrl.models.Participant;
+import com.snowdays.snowdaysctrl.models.ParticipantShort;
 
 import java.util.ArrayList;
 
@@ -22,11 +23,11 @@ import java.util.ArrayList;
 
 public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsListAdapter.ViewHolder> {
 
-    private ArrayList<Participant> mDataset;
+    private ArrayList<ParticipantShort> mDataset;
     private Context c;
     private Boolean flag; // Determines if we should put the done icon or the todo icon
 
-    public ParticipantsListAdapter(Context c, ArrayList<Participant> participants) {
+    public ParticipantsListAdapter(Context c, ArrayList<ParticipantShort> participants) {
         mDataset = participants;
         this.c = c;
     }
@@ -35,7 +36,7 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
         this.mDataset = new ArrayList<>();
     }
 
-    public ArrayList<Participant> getmDataset() {
+    public ArrayList<ParticipantShort> getmDataset() {
         return this.mDataset;
     }
 
@@ -48,7 +49,7 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Participant element = mDataset.get(position);
+        ParticipantShort element = mDataset.get(position);
 
         int drawableIconID = (flag) ? R.drawable.ic_done : R.drawable.ic_todo;
         holder.mIconView.setImageResource(drawableIconID);
@@ -66,7 +67,7 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
         return mDataset.size();
     }
 
-    public void addItems(ArrayList<Participant> participants, boolean flag) {
+    public void addItems(ArrayList<ParticipantShort> participants, boolean flag) {
         this.flag = flag;
         mDataset.clear();
         mDataset.addAll(participants);
@@ -93,9 +94,9 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
 
     public class ParticipantListener implements View.OnClickListener {
         Context c;
-        Participant p;
+        ParticipantShort p;
 
-        public ParticipantListener(Participant myParticipant, Context myContext) {
+        public ParticipantListener(ParticipantShort myParticipant, Context myContext) {
             this.c = myContext;
             this.p = myParticipant;
 
@@ -103,7 +104,7 @@ public class ParticipantsListAdapter extends RecyclerView.Adapter<ParticipantsLi
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(c, ParticipantDetail.class);
-            intent.putExtra("Participant", p);
+            intent.putExtra(ParticipantDetail.PARTICIPANT_ID, p.getId());
             c.startActivity(intent);
         }
     }

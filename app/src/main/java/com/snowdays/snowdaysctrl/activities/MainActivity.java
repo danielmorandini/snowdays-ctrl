@@ -226,7 +226,7 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
                     Participant participant = response.body().getData();
 
                     Intent intent = new Intent(MainActivity.this, ParticipantDetail.class);
-                    intent.putExtra("Participant", participant);
+                    intent.putExtra(ParticipantDetail.PARTICIPANT_ID, participant.getId());
                     startActivity(intent);
 
                 } else {
