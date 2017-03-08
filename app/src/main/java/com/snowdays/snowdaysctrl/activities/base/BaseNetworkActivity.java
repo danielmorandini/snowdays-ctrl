@@ -74,7 +74,7 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
     public Dialog onCreateCommentDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("Comments");
+        builder.setTitle("Reports");
 
         final EditText input = new EditText(this);
         input.setLines(4);
