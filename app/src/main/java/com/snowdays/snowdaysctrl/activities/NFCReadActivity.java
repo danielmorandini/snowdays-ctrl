@@ -152,7 +152,7 @@ public final class NFCReadActivity extends NFCActivity {
     public void onResponse(Call<ResponseData<String>> call, Response<ResponseData<String>> response) {
         super.onResponse(call, response);
 
-        if (response.isSuccessful()) {
+        if (response.isSuccessful() && mCard.getType().equals("transportation")) {
             placesOnBus--;
             view.setVisibility(View.VISIBLE);
             view.setText(String.valueOf(placesOnBus));
