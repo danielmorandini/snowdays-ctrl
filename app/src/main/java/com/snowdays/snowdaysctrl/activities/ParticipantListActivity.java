@@ -35,7 +35,7 @@ public class ParticipantListActivity extends BaseNetworkActivity<ParticipantShor
 
 
     private static ArrayList<ParticipantShort> newDataSet;
-    private static String[] dorms = {"Univercity", "Benedikt", "Marianum", "Carducci"};
+    private static String[] dorms = {"Univercity", "Benedikt", "UNIBZ"};
     private String actionKey;
     private String title;
     private static SearchView searchView = null;
@@ -221,37 +221,53 @@ public class ParticipantListActivity extends BaseNetworkActivity<ParticipantShor
         builder.setTitle("Filter by dorm")
                 .setItems(dorms, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        if(newDataSet == null) {
+                        if (newDataSet == null) {
                             newDataSet = new ArrayList<ParticipantShort>();
                         } else {
-                            for(int i = 0; i < newDataSet.size(); i++) {
+                            for (int i = 0; i < newDataSet.size(); i++) {
                                 newDataSet.remove(i);
                             }
                         }
 
-                        if(!dataSet.isEmpty()) {
+                        if (dorms[which].equals("UNIBZ")) {
+
                             for (int i = 0; i < dataSet.size(); i++) {
 
                                 ParticipantShort current = dataSet.get(i);
 
-                                if (current.getDorm() != null) {
-                                    if (current.getDorm().equals(dorms[which])) {
-                                        newDataSet.add(current);
-                                    }
-                                } else {
-                                    setMessage("current.getDorm() returns null");
-                                    mAdapter.resetmDataset();
-                                    mAdapter.addItems(dataSet, switch_value);
-                                    break;
+                                if (!current.getDorm().equals("Univercity") && !current.getDorm().equals("Benedikt")) {
+                                    newDataSet.add(current);
                                 }
 
                             }
 
+                        } else {
+                            if (!dataSet.isEmpty()) {
+                                for (int i = 0; i < dataSet.size(); i++) {
 
-                            if (!newDataSet.isEmpty()) {
-                                mAdapter.addItems(newDataSet, switch_value);
+                                    ParticipantShort current = dataSet.get(i);
+
+                                    if (current.getDorm() != null) {
+                                        if (current.getDorm().equals(dorms[which])) {
+                                            newDataSet.add(current);
+                                        }
+                                    } else {
+                                        setMessage("current.getDorm() returns null");
+                                        break;
+                                    }
+
+                                }
                             }
                         }
+
+                        if (!newDataSet.isEmpty()) {
+                            mAdapter.addItems(newDataSet, switch_value);
+                        } else {
+                            loadData();
+                            dataSet = mAdapter.getmDataset();
+                            mAdapter.addItems(dataSet, switch_value);
+                        }
+
                     }
                 });
         return builder.create();
