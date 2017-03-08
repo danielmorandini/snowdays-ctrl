@@ -130,7 +130,68 @@ public abstract class BaseNFCActivity extends BaseActivity {
     }
 
     public boolean writeTag(Tag tag, String plainMessage) {
+        Ndef ndef = Ndef.get(tag);
+        Boolean retVal;
 
+        if (ndef != null) {
+            retVal = writeNdef(tag, plainMessage);
+        } else {
+            retVal = formatAndWriteTag(tag, plainMessage);
+        }
+        return retVal;
+    }
+
+    // Helpers
+
+    private NdefRecord createRecord(String text) throws UnsupportedEncodingException {
+
+        //create the message in according with the standard
+        String lang = "en";
+        byte[] textBytes = text.getBytes();
+        byte[] langBytes = lang.getBytes("US-ASCII");
+        int langLength = langBytes.length;
+        int textLength = textBytes.length;
+
+        byte[] payload = new byte[1 + langLength + textLength];
+        payload[0] = (byte) langLength;
+
+        // copy langbytes and textbytes into payload
+        System.arraycopy(langBytes, 0, payload, 1, langLength);
+        System.arraycopy(textBytes, 0, payload, 1 + langLength, textLength);
+
+        NdefRecord recordNFC = new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, new byte[0], payload);
+        return recordNFC;
+    }
+
+    private boolean writeNdef(Tag tag, String plainMessage) {
+        Ndef ndef = Ndef.get(tag);
+
+        try {
+            NdefRecord[] records = { createRecord(plainMessage) };
+            NdefMessage message = new NdefMessage(records);
+
+            ndef.connect();
+            ndef.writeNdefMessage(message);
+
+        } catch (IOException e) {
+            responseError(e);
+        } catch (FormatException e) {
+            responseError(e);
+        } finally {
+            if (ndef != null) {
+                try {
+                    ndef.close();
+                    return true;
+                }
+                catch (IOException e) {
+                    responseError(e);
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean formatAndWriteTag(Tag tag, String plainMessage) {
         NdefFormatable formatable = NdefFormatable.get(tag);
 
         if (formatable != null) {
@@ -170,28 +231,6 @@ public abstract class BaseNFCActivity extends BaseActivity {
             responseError();
         }
         return false;
-    }
-
-    // Helpers
-
-    private NdefRecord createRecord(String text) throws UnsupportedEncodingException {
-
-        //create the message in according with the standard
-        String lang = "en";
-        byte[] textBytes = text.getBytes();
-        byte[] langBytes = lang.getBytes("US-ASCII");
-        int langLength = langBytes.length;
-        int textLength = textBytes.length;
-
-        byte[] payload = new byte[1 + langLength + textLength];
-        payload[0] = (byte) langLength;
-
-        // copy langbytes and textbytes into payload
-        System.arraycopy(langBytes, 0, payload, 1, langLength);
-        System.arraycopy(textBytes, 0, payload, 1 + langLength, textLength);
-
-        NdefRecord recordNFC = new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, new byte[0], payload);
-        return recordNFC;
     }
 }
 
