@@ -35,7 +35,7 @@ public class ParticipantListActivity extends BaseNetworkActivity<ParticipantShor
 
 
     private static ArrayList<ParticipantShort> newDataSet;
-    private static String[] dorms = {"Univercity", "Benedikt", "UNIBZ"};
+    private static String[] dorms = {"Univercity", "Benedikt"};
     private String actionKey;
     private String title;
     private static SearchView searchView = null;
@@ -229,19 +229,7 @@ public class ParticipantListActivity extends BaseNetworkActivity<ParticipantShor
                             }
                         }
 
-                        if (dorms[which].equals("UNIBZ")) {
 
-                            for (int i = 0; i < dataSet.size(); i++) {
-
-                                ParticipantShort current = dataSet.get(i);
-
-                                if (!current.getDorm().equals("Univercity") && !current.getDorm().equals("Benedikt")) {
-                                    newDataSet.add(current);
-                                }
-
-                            }
-
-                        } else {
                             if (!dataSet.isEmpty()) {
                                 for (int i = 0; i < dataSet.size(); i++) {
 
@@ -258,7 +246,7 @@ public class ParticipantListActivity extends BaseNetworkActivity<ParticipantShor
 
                                 }
                             }
-                        }
+
 
                         if (!newDataSet.isEmpty()) {
                             mAdapter.addItems(newDataSet, switch_value);
