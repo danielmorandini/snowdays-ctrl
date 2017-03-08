@@ -165,6 +165,7 @@ public abstract class BaseNFCActivity extends BaseActivity {
 
     private boolean writeNdef(Tag tag, String plainMessage) {
         Ndef ndef = Ndef.get(tag);
+        Boolean retVal = false;
 
         try {
             NdefRecord[] records = { createRecord(plainMessage) };
@@ -174,6 +175,8 @@ public abstract class BaseNFCActivity extends BaseActivity {
             ndef.writeNdefMessage(message);
             ndef.makeReadOnly();
 
+            retVal = true;
+
         } catch (IOException e) {
             responseError(e);
         } catch (FormatException e) {
@@ -182,18 +185,18 @@ public abstract class BaseNFCActivity extends BaseActivity {
             if (ndef != null) {
                 try {
                     ndef.close();
-                    return true;
                 }
                 catch (IOException e) {
                     responseError(e);
                 }
             }
         }
-        return false;
+        return retVal;
     }
 
     public boolean formatAndWriteTag(Tag tag, String plainMessage) {
         NdefFormatable formatable = NdefFormatable.get(tag);
+        Boolean retVal = false;
 
         if (formatable != null) {
             try {
@@ -205,6 +208,7 @@ public abstract class BaseNFCActivity extends BaseActivity {
                     NdefMessage message = new NdefMessage(records);
 
                     formatable.formatReadOnly(message);
+                    retVal = true;
                 }
                 catch (Exception e) {
                     // let the user know the tag refused to format
@@ -218,7 +222,6 @@ public abstract class BaseNFCActivity extends BaseActivity {
             finally {
                 try {
                     formatable.close();
-                    return true;
                 } catch (IOException e) {
                     responseError(e);
                 }
@@ -228,7 +231,7 @@ public abstract class BaseNFCActivity extends BaseActivity {
             // let the user know the tag cannot be formatted
             responseError();
         }
-        return false;
+        return retVal;
     }
 }
 
