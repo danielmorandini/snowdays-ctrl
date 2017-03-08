@@ -66,7 +66,7 @@ public class MainCard implements Serializable {
                 icon = R.drawable.ic_003_school_bus;
                 break;
             case "meal":
-                icon = R.drawable.ic_002_sandwich;
+                icon = R.drawable.ic_002_groceries;
                 break;
             default:
                 icon = R.drawable.ic_001_ski;
