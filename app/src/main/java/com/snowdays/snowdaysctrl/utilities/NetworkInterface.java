@@ -69,8 +69,13 @@ public interface NetworkInterface {
             @Path("id") String id
     );
 
-    @GET("/api/v1/cards?events=all")
+    @GET("/api/v1/cards")
     Call<ResponseData<MainCard[]>> getActivities(
+            @HeaderMap Map<String, String> headers
+    );
+
+    @GET("/api/v1/cards?events=all")
+    Call<ResponseData<MainCard[]>> getAllActivities(
             @HeaderMap Map<String, String> headers
     );
 }

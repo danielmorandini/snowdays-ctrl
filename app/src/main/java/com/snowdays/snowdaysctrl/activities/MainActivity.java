@@ -44,6 +44,7 @@ import retrofit2.Response;
 public class MainActivity extends BaseNetworkActivity<MainCard[]> {
 
     private MainCardListAdapter mAdapter;
+    private Boolean showAll = false;
 
     // NFC Stuff
     private PendingIntent pendingIntent;
@@ -113,13 +114,22 @@ public class MainActivity extends BaseNetworkActivity<MainCard[]> {
                 startActivity(intent);
                 return true;
 
+            case R.id.action_switch_list:
+                showAll = (showAll) ? false : true;
+                loadData();
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     public void loadData() {
-        mCall = NetworkService.getInstance().getActivities(getHeaders());
+        if (showAll) {
+            mCall = NetworkService.getInstance().getAllActivities(getHeaders());
+        } else {
+            mCall = NetworkService.getInstance().getActivities(getHeaders());
+        }
+
         loadData(mCall);
     }
 
