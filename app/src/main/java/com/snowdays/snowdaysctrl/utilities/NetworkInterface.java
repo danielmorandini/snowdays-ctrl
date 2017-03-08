@@ -63,7 +63,7 @@ public interface NetworkInterface {
             @Query("value") Boolean value
     );
 
-    @GET("/api/v1/participants/{id}")
+    @GET("/api/v1/participants/{id}?fields=all")
     Call<ResponseData<Participant>> getParticipant(
             @HeaderMap Map<String, String> headers,
             @Path("id") String id
