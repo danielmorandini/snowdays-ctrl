@@ -111,9 +111,6 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
             @Override
             public void onResponse(Call<ResponseData<String>> call, Response<ResponseData<String>> response) {
                 if (response.isSuccessful()) {
-                    ArrayList<String> data = new ArrayList<String>(Arrays.asList(response.body().getData()));
-
-                    showEmptyView(data.isEmpty());
                     setMessage("Thanks for your report!");
 
                 } else {
@@ -123,7 +120,6 @@ public class BaseNetworkActivity<T> extends BaseActivity implements Callback<Res
                     } else {
                         setMessage("Error while reading server's response");
                     }
-                    showEmptyView(mRecyclerView.getAdapter().getItemCount() == 0);
                 }
             }
 

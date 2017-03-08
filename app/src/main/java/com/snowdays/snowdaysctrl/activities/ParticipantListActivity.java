@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
@@ -12,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 
 import com.snowdays.snowdaysctrl.R;
 import com.snowdays.snowdaysctrl.activities.base.BaseNetworkActivity;
@@ -76,9 +78,14 @@ public class ParticipantListActivity extends BaseNetworkActivity<Participant[]> 
 
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
+
         }
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(ParticipantListActivity.this.getComponentName()));
+            ((EditText)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text)).setTextColor(Color.WHITE);
+            ((EditText)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text)).setHintTextColor(Color.WHITE);
+
+
         }
 
         dataSet = mAdapter.getmDataset();
