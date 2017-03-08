@@ -9,6 +9,7 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -55,6 +56,7 @@ public abstract class BaseNFCActivity extends BaseActivity {
         pendingIntent = PendingIntent.getActivity(
                 this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
+
         IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
         try {
             ndef.addDataType("*/*");    /* Handles all MIME based dispatches.
@@ -64,7 +66,9 @@ public abstract class BaseNFCActivity extends BaseActivity {
             throw new RuntimeException("fail", e);
         }
 
-        intentFiltersArray = new IntentFilter[]{ndef,};
+        IntentFilter all = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
+
+        intentFiltersArray = new IntentFilter[]{ndef, all};
 
         techListsArray = new String[][]{new String[]{NfcF.class.getName()}};
     }
@@ -126,29 +130,41 @@ public abstract class BaseNFCActivity extends BaseActivity {
     }
 
     public boolean writeTag(Tag tag, String plainMessage) {
-        Ndef ndef = Ndef.get(tag);
 
-        try {
-            NdefRecord[] records = { createRecord(plainMessage) };
-            NdefMessage message = new NdefMessage(records);
+        NdefFormatable formatable = NdefFormatable.get(tag);
 
-            ndef.connect();
-            ndef.writeNdefMessage(message);
+        if (formatable != null) {
+            try {
 
-        } catch (IOException e) {
-            responseError(e);
-        } catch (FormatException e) {
-            responseError(e);
-        } finally {
-            if (ndef != null) {
+                formatable.connect();
+
                 try {
-                    ndef.close();
-                    return true;
+                    NdefRecord[] records = { createRecord(plainMessage) };
+                    NdefMessage message = new NdefMessage(records);
+
+                    formatable.format(message);
                 }
-                catch (IOException e) {
+                catch (Exception e) {
+                    // let the user know the tag refused to format
                     responseError(e);
                 }
             }
+            catch (Exception e) {
+                // let the user know the tag refused to connect
+                responseError(e);
+            }
+            finally {
+                try {
+                    formatable.close();
+                    return true;
+                } catch (IOException e) {
+                    responseError(e);
+                }
+            }
+        }
+        else {
+            // let the user know the tag cannot be formatted
+            responseError();
         }
         return false;
     }
