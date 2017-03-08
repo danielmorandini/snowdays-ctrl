@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/participant_list"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:clickable="true"
+android:focusable="true"
+android:focusableInTouchMode="false"
+android:foreground="?attr/selectableItemBackgroundBorderless"
+android:orientation="vertical">
+
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/activity_horizontal_margin"
-    android:id="@+id/participant_list">
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp"
+    android:gravity="center">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/linear_layout">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        android:layout_marginLeft="16dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -33,18 +43,19 @@
             android:gravity="left"
             android:textSize="15dp"
             android:id="@+id/participant_list_dorm"/>
-        </LinearLayout>
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/participant_list_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
-    </LinearLayout>
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/linear_layout"
-        android:background="#c0c0c0">
-    </View>
-</RelativeLayout>
+</LinearLayout>
+
+<View
+    android:layout_width="fill_parent"
+    android:layout_height="0.2dp"
+    android:background="#c0c0c0"/>
+
+</LinearLayout>
