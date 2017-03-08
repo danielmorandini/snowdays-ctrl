@@ -51,8 +51,8 @@ public interface NetworkInterface {
             @FieldMap Map<String, Boolean> fields
     );
 
-    @GET("/api/v1/participants?fields=all")
-    Call<Participant[]> getAllParticipants(
+    @GET("/api/v1/participants")
+    Call<ResponseData<ParticipantShort[]>> getParticipants(
             @HeaderMap Map<String, String> headers
     );
 

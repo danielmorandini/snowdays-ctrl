@@ -64,7 +64,13 @@ public class ParticipantListActivity extends BaseNetworkActivity<ParticipantShor
 
 
     public void loadData() {
-        mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), actionKey, switch_value);
+
+        if (actionKey == null || actionKey.length() == 0) {
+            mCall = NetworkService.getInstance().getParticipants(getHeaders());
+        } else {
+            mCall = NetworkService.getInstance().getParticipantsWithFields(getHeaders(), actionKey, switch_value);
+        }
+
         loadData(mCall);
     }
 
