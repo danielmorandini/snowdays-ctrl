@@ -143,6 +143,9 @@ public abstract class BaseNFCActivity extends BaseActivity {
                     NdefMessage message = new NdefMessage(records);
 
                     formatable.format(message);
+
+                    //TODO: Substitute when finished with testing
+                    //formatable.formatReadOnly(message);
                 }
                 catch (Exception e) {
                     // let the user know the tag refused to format
