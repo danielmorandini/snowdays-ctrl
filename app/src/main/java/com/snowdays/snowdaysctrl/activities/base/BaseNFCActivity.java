@@ -172,6 +172,7 @@ public abstract class BaseNFCActivity extends BaseActivity {
 
             ndef.connect();
             ndef.writeNdefMessage(message);
+            ndef.makeReadOnly();
 
         } catch (IOException e) {
             responseError(e);
@@ -203,10 +204,7 @@ public abstract class BaseNFCActivity extends BaseActivity {
                     NdefRecord[] records = { createRecord(plainMessage) };
                     NdefMessage message = new NdefMessage(records);
 
-                    formatable.format(message);
-
-                    //TODO: Substitute when finished with testing
-                    //formatable.formatReadOnly(message);
+                    formatable.formatReadOnly(message);
                 }
                 catch (Exception e) {
                     // let the user know the tag refused to format

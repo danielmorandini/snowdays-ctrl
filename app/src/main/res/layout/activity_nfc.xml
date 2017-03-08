@@ -37,10 +37,12 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="18dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
             android:layout_gravity="center"
-            android:src="@drawable/ic_007_multimedia"/>
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/ic_wristband"/>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/nfc_fragment_container"
